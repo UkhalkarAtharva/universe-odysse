@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Login - Universe Odyssey</title>
+  <link rel="stylesheet" href="/admin/css/admin.css">
+  <style>
+    .login-box{max-width:420px;margin:80px auto;padding:28px;border-radius:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04)}
+    .input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#e6eef8}
+    .logo{font-size:28px;color:var(--accent);font-weight:700;margin-bottom:6px}
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <div class="login-box">
+      <div class="logo">🪐 Universe Odyssey — Admin</div>
+      <p class="small">Please sign in to continue.</p>
+      <div id="error" style="color:#ff6b6b;display:none;margin-bottom:8px"></div>
+      <div class="form-row"><input id="username" class="input" placeholder="Username"></div>
+      <div class="form-row"><input id="password" type="password" class="input" placeholder="Password"></div>
+      <div style="display:flex;gap:8px;align-items:center"><button id="btnLogin" class="btn">Sign In</button></div>
+    </div>
+  </div>
+  <script src="/admin/js/admin.js"></script>
+  <script>
+    document.getElementById('btnLogin').addEventListener('click', async ()=>{
+      const username=document.getElementById('username').value.trim();
+      const password=document.getElementById('password').value;
+      document.getElementById('error').style.display='none';
+      if(!username||!password){ document.getElementById('error').textContent='Missing credentials'; document.getElementById('error').style.display='block'; return; }
+      const res = await postJson('/admin/auth/login',{username,password});
+      const data = await res.json();
+      if(res.ok && data.success){ window.location.href='/admin/pages/dashboard.html'; }
+      else { document.getElementById('error').textContent = data.message || 'Login failed'; document.getElementById('error').style.display='block'; }
+    });
+  </script>
+</body>
+</html>

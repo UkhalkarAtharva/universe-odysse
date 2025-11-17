@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Users - Admin</title>
+  <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header"><div class="admin-brand">Registered Users</div></div>
+    <div class="card"><table class="table" id="usersTable"><thead><tr><th>Full Name</th><th>Email</th><th>Created</th></tr></thead><tbody></tbody></table></div>
+  </div>
+  <script src="/admin/js/admin.js"></script>
+  <script>
+    async function load(){
+      const res = await getJson('/admin/api/users');
+      if(!res.ok){ redirectToLogin(); return; }
+      const data = await res.json();
+      const tbody = document.querySelector('#usersTable tbody'); tbody.innerHTML='';
+      data.forEach(u=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${u.fullName}</td><td>${u.email}</td><td>${new Date(u.createdAt).toLocaleString()}</td>`; tbody.appendChild(tr); });
+    }
+    load();
+  </script>
+</body>
+</html>

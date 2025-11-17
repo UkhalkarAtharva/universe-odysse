@@ -1,0 +1,66 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Universe Odyssey — Admin Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+    <video class="bg-video" autoplay muted loop playsinline>
+        <source src="/videos/0_Space_Stars_3840x2160.mp4" type="video/mp4">
+    </video>
+
+    <div class="auth-shell">
+        <div class="auth-card">
+            <div class="auth-brand">
+                <div style="width:86px;height:86px;border-radius:999px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(106,76,255,0.14);">
+                    <!-- small planet icon -->
+                    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="6" fill="white" fill-opacity="0.14"/>
+                        <path d="M3 12c2-2 5-4 9-4s7 2 9 4" stroke="white" stroke-opacity="0.12" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h2 class="brand-title">Universe Odyssey</h2>
+                <div class="brand-sub">Admin Portal</div>
+            </div>
+
+            <div th:if="${param.error}" class="msg">Invalid username or password.</div>
+            <div th:if="${param.logout}" class="msg success">Logged out successfully.</div>
+
+            <form method="post" th:action="@{/admin/process-login}" style="margin-top:12px">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input id="username" name="username" class="form-control" type="text" autocomplete="username" required />
+                </div>
+
+                <div class="form-group password-wrapper">
+                    <label for="password">Password</label>
+                    <input id="password" name="password" class="form-control" type="password" autocomplete="current-password" required />
+                    <button type="button" class="toggle-password" aria-label="Show password">
+                        <!-- eye icon -->
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5c5 0 9.27 3.11 11 7-1.73 3.89-6 7-11 7S3.73 15.89 2 12c1.73-3.89 6-7 10-7z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                </div>
+
+                <div class="meta-row">
+                    <a href="/">Back to Home</a>
+                    <button class="btn" type="submit">Sign in</button>
+                </div>
+            </form>
+            <script src="/js/auth.js"></script>
+            <script>
+                // add small shake animation when server indicates login error
+                document.addEventListener('DOMContentLoaded', ()=>{
+                    const msg = document.querySelector('.msg');
+                    if(msg && msg.textContent.trim().length>0){
+                        const card = document.querySelector('.auth-card');
+                        if(card) card.classList.add('shake');
+                    }
+                });
+            </script>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${planet.name + ' - Universe Odyssey'}">Planet Detail</title>
+    
+    <!-- CSS libs -->
+    <link th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/site.css}" rel="stylesheet"/>
+    <link th:href="@{/css/site-ui.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/aos/2.3.4/aos.css}" rel="stylesheet"/>
+    
+    <!-- Three.js for 3D visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        :root {
+            --accent: #7b61ff;
+            --bg1: #0f1724;
+            --bg2: #0b1230;
+            --card-bg: rgba(255,255,255,0.04);
+            --glass: rgba(255,255,255,0.03);
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, rgba(123,97,255,0.06), transparent 10%),
+                        linear-gradient(180deg, var(--bg1), var(--bg2));
+            color: #e6eef8;
+            font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            min-height: 100vh;
+        }
+
+        .planet-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
+            padding: 4rem 2rem;
+            min-height: 70vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .planet-3d-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            position: relative;
+        }
+
+        #planet-canvas {
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(123,97,255,0.4),
+                        0 0 100px rgba(123,97,255,0.2),
+                        inset 0 0 30px rgba(0,0,0,0.5);
+            background: radial-gradient(circle at 30% 30%, rgba(123,97,255,0.1), transparent);
+        }
+
+        .planet-info {
+            flex: 1;
+        }
+
+        .planet-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7b61ff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .planet-short-desc {
+            font-size: 1.1rem;
+            color: #b8c5d6;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #00d4ff;
+            transform: translateX(-4px);
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .spec-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .spec-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(123,97,255,0.4);
+            box-shadow: 0 0 30px rgba(123,97,255,0.2);
+            transform: translateY(-6px);
+        }
+
+        .spec-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #7b61ff;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .spec-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #e6eef8;
+            word-break: break-word;
+        }
+
+        .long-description {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+            line-height: 1.8;
+            color: #b8c5d6;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #7b61ff;
+            margin-bottom: 1.5rem;
+            margin-top: 2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #7b61ff, #00d4ff);
+            border-radius: 2px;
+        }
+
+        .atmosphere-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tag {
+            background: rgba(123,97,255,0.15);
+            border: 1px solid rgba(123,97,255,0.3);
+            color: #7b61ff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(123,97,255,0.25);
+            border-color: rgba(123,97,255,0.5);
+            transform: translateY(-2px);
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-card h4 {
+            color: #7b61ff;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .info-card p {
+            color: #b8c5d6;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .highlight {
+            color: #00d4ff;
+            font-weight: 600;
+        }
+
+        @media (max-width: 968px) {
+            .planet-hero {
+                flex-direction: column;
+                padding: 2rem 1rem;
+                min-height: auto;
+                gap: 2rem;
+            }
+
+            .planet-title {
+                font-size: 2.2rem;
+            }
+
+            #planet-canvas {
+                height: 300px;
+            }
+
+            .specs-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .planet-title {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body th:attr="data-planet=${planet.name}">
+    <div class="container-fluid">
+        <!-- Back button -->
+        <div class="pt-4 px-4">
+            <a href="/" class="back-link" data-aos="fade-right">
+                ← Back to Planets
+            </a>
+        </div>
+
+        <!-- Hero section with 3D Planet -->
+        <section class="planet-hero">
+            <div id="modelContainer" class="planet-3d-container" data-aos="fade-right" data-aos-duration="800">
+                    <!-- If a GLB model exists for Earth show it via model-viewer; otherwise fallback to canvas viewer -->
+                    <div th:if="${#strings.toLowerCase(planet.name) == 'earth'}" class="model-wrapper">
+                        <script type="module" th:src="@{'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js'}"></script>
+                        <model-viewer id="planetModel" src="/models/earth.glb" auto-rotate camera-controls ar alt="3D model of Earth" style="width:100%;max-width:900px;height:500px;margin:0 auto;display:block;border-radius:12px;"></model-viewer>
+                    </div>
+                    <div th:unless="${#strings.toLowerCase(planet.name) == 'earth'}">
+                        <canvas id="planet-canvas"></canvas>
+                    </div>
+                </div>
+
+            <div class="planet-info" data-aos="fade-left" data-aos-duration="800">
+                <h1 id="planet-title" class="planet-title" data-aos="fade-up" data-aos-delay="100">
+                    <span th:text="${planet.name}">Planet Name</span>
+                </h1>
+                <p id="planet-subtitle" class="planet-short-desc" data-aos="fade-up" data-aos-delay="200" th:text="${planet.shortDescription}">
+                    Short description goes here...
+                </p>
+            </div>
+        </section>
+
+        <div class="px-4" style="text-align:center;margin-top:8px;">
+            <a id="nasaCta" th:href="@{'https://www.nasa.gov/search?q=' + ${planet.name}}" target="_blank" class="cta-btn">Want to know more?</a>
+        </div>
+
+        <!-- Key Specifications -->
+        <section class="px-4">
+            <h2 class="section-title" data-aos="fade-up">Key Specifications</h2>
+            <div class="specs-grid">
+                <div class="spec-card" data-aos="fade-up" data-aos-delay="100" th:if="${planet.mass != null}">
+                    <div class="spec-label">Mass</div>
+                    <div class="spec-value" th:text="${planet.mass} + ' × 10²⁴ kg'">0 kg</div>
+                </div>
+
+                <div class="spec-card" data-aos="fade-up" data-aos-delay="150" th:if="${planet.radius != null}">
+                    <div class="spec-label">Radius</div>
+                    <div class="spec-value" th:text="${planet.radius} + ' km'">0 km</div>
+                </div>
+
+                <div class="spec-card" data-aos="fade-up" data-aos-delay="200" th:if="${planet.gravity != null}">
+                    <div class="spec-label">Surface Gravity</div>
+                    <div class="spec-value" th:text="${planet.gravity} + ' m/s²'">0 m/s²</div>
+                </div>
+
+                <div class="spec-card" data-aos="fade-up" data-aos-delay="250" th:if="${planet.orbitalPeriod != null}">
+                    <div class="spec-label">Orbital Period</div>
+                    <div class="spec-value" th:text="${planet.orbitalPeriod} + ' days'">0 days</div>
+                </div>
+
+                <div class="spec-card" data-aos="fade-up" data-aos-delay="300" th:if="${planet.distanceFromSun != null}">
+                    <div class="spec-label">Distance from Sun</div>
+                    <div class="spec-value" th:text="${planet.distanceFromSun} + ' M km'">0 M km</div>
+                </div>
+
+                <div class="spec-card" data-aos="fade-up" data-aos-delay="350" th:if="${planet.surfaceTemp != null}">
+                    <div class="spec-label">Surface Temperature</div>
+                    <div class="spec-value" th:text="${planet.surfaceTemp} + ' °C'">0 °C</div>
+                </div>
+
+                <div class="spec-card" data-aos="fade-up" data-aos-delay="400" th:if="${planet.moons != null}">
+                    <div class="spec-label">Moons</div>
+                    <div class="spec-value" th:text="${planet.moons}">0</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Long description -->
+        <section class="px-4" data-aos="fade-up" data-aos-delay="100">
+            <h2 class="section-title" data-aos="fade-up">Overview</h2>
+            <div class="long-description" th:text="${planet.longDescription}">
+                Detailed description of the planet goes here...
+            </div>
+        </section>
+
+        <!-- Atmosphere section -->
+        <section class="px-4" th:if="${planet.atmosphere != null and planet.atmosphere != ''}">
+            <h2 class="section-title" data-aos="fade-up">Atmosphere Composition</h2>
+            <div class="atmosphere-tags" data-aos="fade-up" data-aos-delay="100">
+                <span class="tag" th:each="element in="${planet.atmosphere.split(',')}">
+                    <span th:text="${element.trim()}">Element</span>
+                </span>
+            </div>
+        </section>
+
+        <!-- Orbital and Physical Information -->
+        <section class="px-4">
+            <h2 class="section-title" data-aos="fade-up">Physical Characteristics</h2>
+            <div class="info-row">
+                <div class="info-card" data-aos="fade-up" data-aos-delay="100">
+                    <h4>Diameter</h4>
+                    <p th:text="${planet.radius * 2} + ' km'">Calculated from radius</p>
+                </div>
+                <div class="info-card" data-aos="fade-up" data-aos-delay="150">
+                    <h4>Volume Relative to Earth</h4>
+                    <p th:if="${planet.name == 'Earth'}">1.0x Earth</p>
+                    <p th:unless="${planet.name == 'Earth'}" th:text="${'Approximately ' + planet.radius / 6371 + ' times'}">Calculated</p>
+                </div>
+                <div class="info-card" data-aos="fade-up" data-aos-delay="200">
+                    <h4>Rotation</h4>
+                    <p th:switch="${planet.name}">
+                        <span th:case="'Mercury'">59 days</span>
+                        <span th:case="'Venus'">243 days (Retrograde)</span>
+                        <span th:case="'Earth'">24 hours</span>
+                        <span th:case="'Mars'">24.6 hours</span>
+                        <span th:case="'Jupiter'">10 hours</span>
+                        <span th:case="'Saturn'">11 hours</span>
+                        <span th:case="'Uranus'">17 hours (Retrograde)</span>
+                        <span th:case="'Neptune'">16 hours</span>
+                        <span th:case="*">Unknown</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Orbital Information -->
+        <section class="px-4">
+            <h2 class="section-title" data-aos="fade-up">Orbital Information</h2>
+            <div class="info-row">
+                <div class="info-card" data-aos="fade-up" data-aos-delay="100">
+                    <h4>Orbital Period</h4>
+                    <p th:text="${planet.orbitalPeriod} + ' Earth days'">Days</p>
+                </div>
+                <div class="info-card" data-aos="fade-up" data-aos-delay="150">
+                    <h4>Distance from Sun</h4>
+                    <p th:text="${planet.distanceFromSun} + ' million km'">Million km</p>
+                </div>
+                <div class="info-card" data-aos="fade-up" data-aos-delay="200">
+                    <h4>Average Speed</h4>
+                    <p th:switch="${planet.name}">
+                        <span th:case="'Mercury'">47.87 km/s</span>
+                        <span th:case="'Venus'">35.02 km/s</span>
+                        <span th:case="'Earth'">29.78 km/s</span>
+                        <span th:case="'Mars'">24.07 km/s</span>
+                        <span th:case="'Jupiter'">13.07 km/s</span>
+                        <span th:case="'Saturn'">9.68 km/s</span>
+                        <span th:case="'Uranus'">6.81 km/s</span>
+                        <span th:case="'Neptune'">5.43 km/s</span>
+                        <span th:case="*">Unknown</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fun Facts -->
+        <section class="px-4 pb-5">
+            <h2 class="section-title" data-aos="fade-up">Fun Facts</h2>
+            <div class="info-row">
+                <div class="info-card" data-aos="fade-up" data-aos-delay="100" th:switch="${planet.name}">
+                    <h4>Did You Know?</h4>
+                    <p th:case="'Mercury'">Mercury is so close to the Sun that from its surface, the Sun would appear three times larger than from Earth.</p>
+                    <p th:case="'Venus'">Venus rotates backwards compared to most planets and is so hot that lead would melt on its surface.</p>
+                    <p th:case="'Earth'">Earth is the only known planet with life and liquid water on its surface.</p>
+                    <p th:case="'Mars'">Mars has the largest volcano in the solar system - Olympus Mons - which is three times taller than Mount Everest.</p>
+                    <p th:case="'Jupiter'">Jupiter's Great Red Spot is a storm larger than Earth and has been raging for at least 300 years.</p>
+                    <p th:case="'Saturn'">Saturn is the least dense planet - it would float in water! Its rings are made of billions of ice particles.</p>
+                    <p th:case="'Uranus'">Uranus rotates on its side, possibly due to a collision with an Earth-sized object billions of years ago.</p>
+                    <p th:case="'Neptune'">Neptune has the fastest winds in the solar system, reaching speeds of 2,100 km/h.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/webjars/aos/2.3.4/aos.js}"></script>
+    <script th:src="@{/js/planet-3d-viewer.js}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out-cubic',
+                once: false
+            });
+        });
+    </script>
+</body>
+</html>

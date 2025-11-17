@@ -1,0 +1,98 @@
+/* Premium space UI styles: glassmorphism, neon accents, responsive grids, subtle animations */
+:root{
+  --bg-dark:#071025;
+  --bg-2:#0b1530;
+  --accent:#7b61ff;
+  --accent-2:#00d4ff;
+  --glass:rgba(255,255,255,0.03);
+  --card-border:rgba(123,97,255,0.12);
+  --muted:#b8c5d6;
+}
+body{background:linear-gradient(180deg,var(--bg-dark),var(--bg-2));color:#e6eef8;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;margin:0;padding:0}
+.container{max-width:1100px;margin:0 auto;padding:20px}
+/* Hero */
+.ui-hero{padding:36px 20px;text-align:center}
+.ui-hero .title{font-size:2.6rem;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent;margin:8px 0}
+.ui-hero .subtitle{color:var(--muted);max-width:900px;margin:0 auto;font-size:1rem}
+
+/* Model viewer container */
+.model-wrapper{max-width:980px;margin:28px auto 12px;display:block}
+model-viewer{width:100%;height:500px;border-radius:12px;background:linear-gradient(180deg,rgba(0,0,0,0.2),transparent);box-shadow:0 10px 40px rgba(11,17,48,0.6),0 0 60px rgba(123,97,255,0.06)}
+
+/* Cards grid */
+.specs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin:28px 0}
+.spec-card{background:var(--glass);border:1px solid var(--card-border);padding:18px;border-radius:12px;backdrop-filter:blur(8px);transition:transform .28s ease,box-shadow .28s ease;opacity:0;transform:translateY(10px)}
+.spec-card.visible{opacity:1;transform:none}
+.spec-card:hover{transform:translateY(-6px);box-shadow:0 8px 30px rgba(123,97,255,0.12)}
+.spec-label{font-size:12px;color:var(--accent);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.spec-value{font-size:18px;color:#e6eef8;font-weight:600}
+
+/* CTA */
+.cta-row{display:flex;justify-content:center;margin:18px 0}
+.cta-btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;padding:12px 18px;border-radius:10px;border:none;cursor:pointer;font-weight:700;box-shadow:0 8px 30px rgba(123,97,255,0.18);text-transform:uppercase}
+.cta-btn:hover{transform:translateY(-3px)}
+
+/* Mission cards */
+.missions-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.mission-card{background:var(--glass);border:1px solid var(--card-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:transform .28s ease,box-shadow .28s ease;opacity:0;transform:translateY(12px)}
+.mission-card.visible{opacity:1;transform:none}
+.mission-media{height:160px;background:#031426;display:flex;align-items:center;justify-content:center}
+.mission-media img{width:100%;height:100%;object-fit:cover}
+.mission-body{padding:14px;flex:1;display:flex;flex-direction:column}
+.mission-title{font-size:1.05rem;font-weight:700;color:#fff;margin:0 0 8px}
+.mission-status{font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--accent);display:inline-block;margin-bottom:8px}
+.mission-desc{color:var(--muted);font-size:0.95rem;flex:1}
+.mission-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.mission-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent);padding:8px 12px;border-radius:8px;cursor:pointer}
+.mission-card:hover{transform:translateY(-8px);box-shadow:0 12px 50px rgba(123,97,255,0.18), 0 0 80px rgba(0,212,255,0.06);}
+
+/* small screens */
+@media(max-width:720px){.ui-hero .title{font-size:1.8rem}.model-wrapper{padding:0 12px}model-viewer{height:350px}}
+
+/* simple fade animation helper */
+.fade-up{opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s ease}
+.fade-up.visible{opacity:1;transform:none}
+
+/* utility */
+.muted{color:var(--muted)}
+
+/* Moons list responsive helper */
+.moons-section .moons-list{display:flex;flex-wrap:wrap;gap:12px}
+.moons-section .moon-item{background:var(--glass);padding:10px 12px;border-radius:10px;border:1px solid var(--card-border)}
+.moons-section .moons-list .moon-name{font-weight:600}
+
+/* Global responsive breakpoints */
+@media (max-width:1024px) {
+  .container{max-width:960px;padding:18px}
+  .ui-hero{padding:36px 18px}
+  .specs-grid{grid-template-columns:repeat(2,1fr)}
+  .missions-grid{grid-template-columns:repeat(3,1fr);gap:20px}
+}
+
+@media (max-width:768px) {
+  .container{max-width:720px;padding:16px}
+  .ui-hero{padding:28px 14px}
+  .ui-hero .title{font-size:clamp(1.5rem,3.5vw,2.2rem)}
+  .model-wrapper{max-width:100%;margin:20px auto}
+  model-viewer{height:360px}
+  .missions-grid{grid-template-columns:repeat(2,1fr);gap:16px}
+  .specs-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .spec-card{padding:14px}
+}
+
+@media (max-width:480px) {
+  :root{--site-padding:12px}
+  .container{padding-left:var(--site-padding);padding-right:var(--site-padding);max-width:420px}
+  .ui-hero{padding:18px 12px}
+  .ui-hero .title{font-size:clamp(1.25rem,6vw,1.8rem)}
+  .ui-hero .subtitle{font-size:0.95rem}
+  .model-wrapper{margin:16px 0}
+  model-viewer{height:260px}
+  .missions-grid{grid-template-columns:1fr;gap:12px;padding:0}
+  .specs-grid{grid-template-columns:1fr;gap:12px}
+  .spec-card{padding:12px}
+  .cta-row{padding:6px 0}
+  /* ensure images and large elements don't overflow */
+  img, .planet-hero-image, model-viewer, .missions-grid img{max-width:100%;height:auto;display:block}
+  .break-word{word-break:break-word;overflow-wrap:break-word}
+}

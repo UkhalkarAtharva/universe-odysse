@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Manage Users</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+</head>
+<body>
+  <!-- Background Video + Overlay -->
+  <video class="admin-bg-video" autoplay muted loop playsinline>
+    <source src="/videos/0_Space_Stars_3840x2160.mp4" type="video/mp4" />
+  </video>
+  <div class="admin-overlay"></div>
+
+  <!-- Fixed Header -->
+  <header class="admin-header">
+    <div class="header-content">
+      <div class="header-brand">
+        <h1>Admin Panel</h1>
+      </div>
+      <nav class="header-nav">
+        <a href="/admin/dashboard" class="nav-link">Dashboard</a>
+        <a href="/admin/planets" class="nav-link">Planets</a>
+        <a href="/admin/facts" class="nav-link">Facts</a>
+        <a href="/admin/users" class="nav-link">Users</a>
+        <a href="/logout" class="nav-link logout">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+    <div class="admin-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Manage Users</h1>
+          <p class="page-subtitle">View, edit, and manage user accounts</p>
+        </div>
+      </div>
+
+      <div class="cards-grid">
+        <!-- USER CARD -->
+        <div class="user-card" th:each="user : ${users}" th:data-user-id="${user.id}">
+          <div class="user-card-head">
+            <div class="user-avatar" th:text="${#strings.substring(user.username,0,1).toUpperCase()}">A</div>
+            <div>
+              <div class="user-card-name" th:text="${user.username}">username</div>
+              <div class="user-card-meta" th:text="${user.email}">email</div>
+            </div>
+          </div>
+
+          <div class="user-card-body">
+            <p><strong>Role:</strong> <span th:text="${user.role}">ROLE_USER</span></p>
+            <p><strong>Status:</strong> <span>Active</span></p>
+            <p><strong>Created:</strong> <span>Not Available</span></p>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-top: 16px;">
+            <button class="btn-primary" th:data-user-id="${user.id}" onclick="openEditUserModal(this.dataset.userId)" style="flex: 1;">Edit</button>
+            <button class="btn-danger" th:data-user-id="${user.id}" onclick="confirmDelete('/admin/api/users/' + this.dataset.userId)" style="flex: 1;">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="admin-footer">
+    <p>&copy; 2025 Universe Odyssey Admin. All rights reserved.</p>
+  </footer>
+
+  <!-- EDIT USER MODAL -->
+  <div id="edit-user-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Edit User</h3>
+        <span class="modal-close" onclick="closeEditUserModal()">×</span>
+      </div>
+
+      <form id="edit-user-form" onsubmit="submitEditUser(event)">
+        <input type="hidden" id="edit-user-id" />
+
+        <div class="form-group">
+          <input id="edit-username" class="form-control" placeholder=" " required />
+          <label>Username</label>
+        </div>
+
+        <div class="form-group">
+          <input id="edit-email" class="form-control" placeholder=" " required />
+          <label>Email</label>
+        </div>
+
+        <div class="form-group">
+          <input id="edit-role" class="form-control" placeholder=" " required />
+          <label>Role</label>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 24px;">
+          <button type="button" class="btn-secondary" onclick="closeEditUserModal()" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn-primary" style="flex: 1;">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

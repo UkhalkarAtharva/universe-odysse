@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cosmos AI</title>
+  <link rel="stylesheet" href="/css/site-ui.css">
+  <link rel="stylesheet" href="/css/chat.css">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body class="cosmos-body">
+  <div class="cosmos-container">
+    <header class="cosmos-header">
+      <h1 id="pageTitle">Cosmos AI — Ask Anything</h1>
+      <p id="pageSubtitle" class="sub">An interactive assistant for planetary knowledge</p>
+    </header>
+
+    <main class="cosmos-main">
+      <aside class="cosmos-left">
+        <div id="modelArea" class="model-area">
+          <!-- model-viewer or fallback image injected by chat-gemini.js -->
+          <div class="model-placeholder">Loading preview…</div>
+        </div>
+      </aside>
+
+      <section class="cosmos-right">
+        <div id="chatWindow" class="chat-window">
+          <div id="messages" class="messages"></div>
+        </div>
+
+        <form id="chatForm" class="chat-form" autocomplete="off">
+          <input id="chatInput" class="chat-input" type="text" placeholder="Ask Cosmos anything about the planet..." />
+          <button id="sendBtn" class="btn neon" type="submit">Send</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="cosmos-footer">Cosmos AI • Powered by your imagination (and Gemini).</footer>
+  </div>
+
+  <script src="/js/chat-gemini.js"></script>
+</body>
+</html>

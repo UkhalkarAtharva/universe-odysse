@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Manage Planets - Admin</title>
+  <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header"><div class="admin-brand">Manage Planets</div></div>
+    <div style="margin-bottom:12px"><button onclick="location.href='/admin/pages/planet-form.html'" class="btn">Add Planet</button></div>
+    <div class="card"><table class="table" id="planetsTable"><thead><tr><th>Name</th><th>Moons</th><th>Gravity</th><th>Actions</th></tr></thead><tbody></tbody></table></div>
+  </div>
+  <script src="/admin/js/admin.js"></script>
+  <script>
+    async function load(){
+      const res = await getJson('/admin/api/planets');
+      if(!res.ok){ redirectToLogin(); return; }
+      const data = await res.json();
+      const tbody = document.querySelector('#planetsTable tbody');
+      tbody.innerHTML='';
+      data.forEach(p=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${p.name}</td><td>${p.moons||0}</td><td>${p.gravity||''}</td><td><button class='btn' onclick='edit(${p.id})'>Edit</button> <button class='btn' onclick='del(${p.id})'>Delete</button></td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    function edit(id){ location.href='/admin/pages/planet-form.html?id='+id }
+    async function del(id){ if(!confirm('Delete planet?')) return; const res=await fetch('/admin/api/planets/'+id,{method:'DELETE'}); if(res.ok) load(); }
+    load();
+  </script>
+</body>
+</html>

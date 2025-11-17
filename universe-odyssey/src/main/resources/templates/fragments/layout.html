@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(headTitle, bodyContent)">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title th:text="${headTitle}">Universe Odyssey Admin</title>
+
+  <!-- CSS libs -->
+  <link th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" rel="stylesheet"/>
+  <link th:href="@{/css/site.css}" rel="stylesheet"/>
+  <link th:href="@{/webjars/aos/2.3.4/aos.css}" rel="stylesheet"/>
+  <script th:src="@{/webjars/particles.js/2.0.0/particles.min.js}"></script>
+  <script th:src="@{/webjars/lottie-web/5.9.6/lottie.min.js}"></script>
+</head>
+<body>
+  <div id="app">
+    <header th:replace="fragments/header :: header"></header>
+    <main class="container-fluid">
+      <div th:insert="${bodyContent}"></div>
+    </main>
+    <footer th:replace="fragments/footer :: footer"></footer>
+  </div>
+
+  <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/webjars/aos/2.3.4/aos.js}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){ AOS.init(); });
+  </script>
+</body>
+</html>

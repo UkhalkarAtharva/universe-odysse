@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title th:text="${fact.id == null} ? 'Add Fact' : 'Edit Fact'">Add Fact</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+</head>
+<body>
+  <!-- Background Video + Overlay -->
+  <video class="admin-bg-video" autoplay muted loop playsinline>
+    <source src="/videos/0_Space_Stars_3840x2160.mp4" type="video/mp4" />
+  </video>
+  <div class="admin-overlay"></div>
+
+  <!-- Fixed Header -->
+  <header class="admin-header">
+    <div class="header-content">
+      <div class="header-brand">
+        <h1>Admin Panel</h1>
+      </div>
+      <nav class="header-nav">
+        <a href="/admin/dashboard" class="nav-link">Dashboard</a>
+        <a href="/admin/planets" class="nav-link">Planets</a>
+        <a href="/admin/facts" class="nav-link">Facts</a>
+        <a href="/admin/users" class="nav-link">Users</a>
+        <a href="/logout" class="nav-link logout">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+    <div class="admin-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title" th:text="${fact.id == null} ? 'Add New Fact' : 'Edit Fact'">Fact</h1>
+          <p class="page-subtitle" th:text="${fact.id == null} ? 'Create a new space fact' : 'Update fact information'">Form</p>
+        </div>
+      </div>
+
+      <div class="card" style="max-width: 700px; margin: 0 auto;">
+        <form th:action="@{/admin/facts/save}" th:object="${fact}" method="post" onsubmit="setTimeout(()=>showToast('Fact saved successfully','success'),100);">
+          <input type="hidden" th:field="*{id}" />
+
+          <div class="form-group">
+            <input th:field="*{title}" class="form-control" placeholder=" " required />
+            <label>Fact Title</label>
+          </div>
+
+          <div class="form-group">
+            <textarea th:field="*{text}" class="form-control" placeholder=" " rows="8"></textarea>
+            <label>Fact Content</label>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-top: 24px;">
+            <a href="/admin/facts" class="btn-secondary" style="flex: 1; text-align: center; padding: 10px; text-decoration: none; border-radius: 8px;">Cancel</a>
+            <button class="btn-primary" type="submit" style="flex: 1;">Save Fact</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="admin-footer">
+    <p>&copy; 2025 Universe Odyssey Admin. All rights reserved.</p>
+  </footer>
+
+  <script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

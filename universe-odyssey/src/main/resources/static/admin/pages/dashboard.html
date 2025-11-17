@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin Dashboard - Universe Odyssey</title>
+  <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header"><div class="admin-brand">🪐 Universe Odyssey Admin</div></div>
+    <div id="stats" class="card-grid"></div>
+    <div style="margin-top:18px"><button onclick="location.href='/admin/pages/planets.html'" class="btn">Manage Planets</button> <button onclick="location.href='/admin/pages/users.html'" class="btn">Manage Users</button></div>
+  </div>
+  <script src="/admin/js/admin.js"></script>
+  <script>
+    async function loadStats(){
+      const res = await getJson('/admin/api/stats');
+      if(!res.ok){ redirectToLogin(); return; }
+      const data = await res.json();
+      const el = document.getElementById('stats');
+      el.innerHTML = `
+        <div class="card"> <h3>Total Planets</h3><div class="small">${data.totalPlanets}</div></div>
+        <div class="card"> <h3>Total Users</h3><div class="small">${data.totalUsers}</div></div>
+        <div class="card"> <h3>Total Missions</h3><div class="small">${data.totalMissions}</div></div>
+        <div class="card"> <h3>Last Updated Planet</h3><div class="small">${data.lastUpdatedPlanet?data.lastUpdatedPlanet.name:'-'}</div></div>
+      `;
+    }
+    loadStats();
+  </script>
+</body>
+</html>

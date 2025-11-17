@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Planet Form - Admin</title>
+  <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header"><div class="admin-brand">Planet Form</div></div>
+    <div class="card">
+      <div id="formWrap">
+        <div class="form-row"><label>Name</label><input id="name" class="input"></div>
+        <div class="form-row"><label>Mass</label><input id="mass" class="input" type="number" step="any"></div>
+        <div class="form-row"><label>Radius</label><input id="radius" class="input" type="number" step="any"></div>
+        <div class="form-row"><label>Gravity</label><input id="gravity" class="input" type="number" step="any"></div>
+        <div class="form-row"><label>Moons</label><input id="moons" class="input" type="number"></div>
+        <div class="form-row"><label>Distance From Sun</label><input id="distanceFromSun" class="input" type="number" step="any"></div>
+        <div class="form-row"><label>Orbital Period</label><input id="orbitalPeriod" class="input" type="number" step="any"></div>
+        <div class="form-row"><label>Surface Temp</label><input id="surfaceTemp" class="input" type="number" step="any"></div>
+        <div class="form-row"><label>Image Filename</label><input id="imageFilename" class="input" placeholder="/assets/file.png"></div>
+        <div class="form-row"><label>Short Description</label><textarea id="shortDescription" class="input"></textarea></div>
+        <div class="form-row"><label>Long Description</label><textarea id="longDescription" class="input"></textarea></div>
+        <div class="form-row"><label>Atmosphere</label><input id="atmosphere" class="input"></div>
+        <div style="margin-top:12px"><button id="saveBtn" class="btn">Save</button> <button onclick="history.back()" class="btn">Cancel</button></div>
+      </div>
+    </div>
+  </div>
+  <script src="/admin/js/admin.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    async function load(){ if(!id) return; const res=await getJson('/admin/api/planets/'+id); if(!res.ok){ redirectToLogin(); return; } const p=await res.json(); document.getElementById('name').value=p.name||''; document.getElementById('mass').value=p.mass||''; document.getElementById('radius').value=p.radius||''; document.getElementById('gravity').value=p.gravity||''; document.getElementById('moons').value=p.moons||''; document.getElementById('distanceFromSun').value=p.distanceFromSun||''; document.getElementById('orbitalPeriod').value=p.orbitalPeriod||''; document.getElementById('surfaceTemp').value=p.surfaceTemp||''; document.getElementById('imageFilename').value=p.imageFilename||''; document.getElementById('shortDescription').value=p.shortDescription||''; document.getElementById('longDescription').value=p.longDescription||''; document.getElementById('atmosphere').value=p.atmosphere||''; }
+    document.getElementById('saveBtn').addEventListener('click', async ()=>{
+      const payload = { name:document.getElementById('name').value, mass: parseFloat(document.getElementById('mass').value)||null, radius:parseFloat(document.getElementById('radius').value)||null, gravity:parseFloat(document.getElementById('gravity').value)||null, moons:parseInt(document.getElementById('moons').value)||0, distanceFromSun:parseFloat(document.getElementById('distanceFromSun').value)||null, orbitalPeriod:parseFloat(document.getElementById('orbitalPeriod').value)||null, surfaceTemp:parseFloat(document.getElementById('surfaceTemp').value)||null, imageFilename:document.getElementById('imageFilename').value, shortDescription:document.getElementById('shortDescription').value, longDescription:document.getElementById('longDescription').value, atmosphere:document.getElementById('atmosphere').value };
+      let res;
+      if(id){ res = await fetch('/admin/api/planets/'+id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}); }
+      else { res = await fetch('/admin/api/planets',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}); }
+      if(!res.ok){ alert('Save failed'); return; }
+      alert('Saved'); location.href='/admin/pages/planets.html';
+    });
+    load();
+  </script>
+</body>
+</html>

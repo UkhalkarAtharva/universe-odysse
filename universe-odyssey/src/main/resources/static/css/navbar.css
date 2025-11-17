@@ -1,0 +1,165 @@
+/* Navbar Styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 30, 0.95);
+    border-bottom: 1px solid rgba(123, 97, 255, 0.2);
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    padding: 0 20px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #7b61ff;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.navbar-brand:hover {
+    color: #9b88ff;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-nav a {
+    color: #c0c0c0;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav a:hover {
+    color: #7b61ff;
+}
+
+.navbar-nav a.active {
+    color: #7b61ff;
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.auth-buttons .btn {
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-family: 'Inter', sans-serif;
+}
+
+.auth-buttons .btn-signup {
+    background: linear-gradient(135deg, #7b61ff 0%, #5a45cc 100%);
+    color: white;
+}
+
+.auth-buttons .btn-signup:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(123, 97, 255, 0.3);
+}
+
+.auth-buttons .btn-login {
+    color: #7b61ff;
+    border: 1px solid rgba(123, 97, 255, 0.5);
+    background: transparent;
+}
+
+.auth-buttons .btn-login:hover {
+    background: rgba(123, 97, 255, 0.1);
+    border-color: #7b61ff;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-name {
+    color: #c0c0c0;
+    font-size: 14px;
+}
+
+.btn-logout {
+    padding: 8px 20px;
+    border-radius: 6px;
+    background: rgba(255, 67, 67, 0.1);
+    color: #ff4343;
+    border: 1px solid rgba(255, 67, 67, 0.3);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 67, 67, 0.2);
+    border-color: #ff4343;
+}
+
+/* Add top padding to body when navbar is fixed */
+body.has-navbar {
+    padding-top: 70px;
+}
+
+.navbar-spacer {
+    height: 70px;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 15px;
+    }
+
+    .navbar-brand {
+        font-size: 16px;
+    }
+
+    .navbar-nav {
+        gap: 20px;
+    }
+
+    .navbar-nav a {
+        font-size: 13px;
+    }
+
+    .auth-buttons {
+        gap: 10px;
+    }
+
+    .auth-buttons .btn {
+        padding: 6px 15px;
+        font-size: 12px;
+    }
+
+    .user-name {
+        display: none;
+    }
+}

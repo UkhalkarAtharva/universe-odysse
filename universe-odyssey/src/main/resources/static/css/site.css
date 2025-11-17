@@ -1,0 +1,48 @@
+/* site.css - minimal attractive theme + starry gradient */
+:root {
+  --accent: #7b61ff;
+  --bg1: #0f1724;
+  --bg2: #0b1230;
+  --card-bg: rgba(255,255,255,0.04);
+  --glass: rgba(255,255,255,0.03);
+}
+
+body {
+  background: radial-gradient(circle at 10% 20%, rgba(123,97,255,0.06), transparent 10%),
+              linear-gradient(180deg, var(--bg1), var(--bg2));
+  color: #e6eef8;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  min-height: 100vh;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 12px;
+  box-shadow: 0 6px 30px rgba(2,6,23,0.6);
+}
+
+.dash-card {
+  padding: 22px;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.dash-card:hover { transform: translateY(-6px); box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+
+.hero {
+  padding: 32px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(123,97,255,0.08), rgba(0,0,0,0.05));
+}
+
+.flash {
+  margin: 12px 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #04132a;
+  background: #c8f7d4;
+}
+
+/* small responsive tweaks */
+@media (max-width: 768px) {
+  .dash-card { padding: 14px; }
+}

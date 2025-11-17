@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+</head>
+<body>
+  <!-- Background Video + Overlay -->
+  <video class="admin-bg-video" autoplay muted loop playsinline>
+    <source src="/videos/0_Space_Stars_3840x2160.mp4" type="video/mp4" />
+  </video>
+  <div class="admin-overlay"></div>
+
+  <!-- Fixed Header -->
+  <header class="admin-header">
+    <div class="header-content">
+      <div class="header-brand">
+        <h1>Admin Panel</h1>
+      </div>
+      <nav class="header-nav">
+        <a href="/admin/dashboard" class="nav-link">Dashboard</a>
+        <a href="/admin/planets" class="nav-link">Planets</a>
+        <a href="/admin/facts" class="nav-link">Facts</a>
+        <a href="/admin/users" class="nav-link">Users</a>
+        <a href="/logout" class="nav-link logout">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+    <div class="admin-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Welcome, Administrator</h1>
+          <p class="page-subtitle">Manage your content and users from here</p>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <a href="/admin/planets" style="text-decoration: none;">
+          <div class="dashboard-card">
+            <h3>Manage Planets</h3>
+            <p>View, edit, and delete planets in the database</p>
+          </div>
+        </a>
+
+        <a href="/admin/facts" style="text-decoration: none;">
+          <div class="dashboard-card">
+            <h3>Add New Fact</h3>
+            <p>Create and manage interesting facts about space</p>
+          </div>
+        </a>
+
+        <a href="/admin/users" style="text-decoration: none;">
+          <div class="dashboard-card">
+            <h3>Manage Users</h3>
+            <p>View, edit, and manage user accounts</p>
+          </div>
+        </a>
+
+        <a href="/" style="text-decoration: none;">
+          <div class="dashboard-card">
+            <h3>Back to Site</h3>
+            <p>Return to the main user website</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="admin-footer">
+    <p>&copy; 2025 Universe Odyssey Admin. All rights reserved.</p>
+  </footer>
+
+  <script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

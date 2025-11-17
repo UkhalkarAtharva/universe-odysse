@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title th:text="${pageTitle} + ' - Admin'">Admin</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+</head>
+<body>
+  <!-- Background Video + Overlay -->
+  <video class="admin-bg-video" autoplay muted loop playsinline>
+    <source src="/videos/0_Space_Stars_3840x2160.mp4" type="video/mp4" />
+  </video>
+  <div class="admin-overlay"></div>
+
+  <!-- Fixed Header -->
+  <header class="admin-header">
+    <div class="header-content">
+      <div class="header-brand">
+        <h1>Admin Panel</h1>
+      </div>
+      <nav class="header-nav">
+        <a href="/admin/dashboard" class="nav-link">Dashboard</a>
+        <a href="/admin/planets" class="nav-link">Planets</a>
+        <a href="/admin/facts" class="nav-link">Facts</a>
+        <a href="/admin/users" class="nav-link">Users</a>
+        <a href="/logout" class="nav-link logout">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+    <div class="admin-content">
+      <div layout:fragment="content"></div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="admin-footer">
+    <p>&copy; 2025 Universe Odyssey Admin. All rights reserved.</p>
+  </footer>
+
+  <script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

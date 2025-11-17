@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mission Form</title>
+</head>
+<body>
+
+<h1 th:text="${mission.id == null} ? 'Add Mission' : 'Edit Mission'"></h1>
+
+<form th:action="@{/admin/missions/save}" th:object="${mission}" method="post">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" required/><br><br>
+
+    <label>Launch Date:</label>
+    <input type="date" th:field="*{launchDate}" required/><br><br>
+
+    <label>Description:</label>
+    <textarea th:field="*{description}"></textarea><br><br>
+
+    <button type="submit">Save</button>
+
+</form>
+
+</body>
+</html>

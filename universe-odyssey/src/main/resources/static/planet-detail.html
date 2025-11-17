@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planet Details - Universe Odyssey</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/site-ui.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f1724 0%, #0b1230 100%);
+            font-family: 'Inter', sans-serif;
+            color: #e0e0e0;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(123, 97, 255, 0.1);
+            border: 1px solid rgba(123, 97, 255, 0.3);
+            border-radius: 8px;
+        }
+
+        .back-button {
+            background: rgba(123, 97, 255, 0.2);
+            color: #7b61ff;
+            border: 1px solid rgba(123, 97, 255, 0.5);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .back-button:hover {
+            background: rgba(123, 97, 255, 0.3);
+            border-color: rgba(123, 97, 255, 0.8);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(123, 97, 255, 0.2);
+            border-top-color: #7b61ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-container {
+            background: rgba(255, 67, 67, 0.1);
+            border: 1px solid rgba(255, 67, 67, 0.5);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .error-container h2 {
+            color: #ff4343;
+            margin: 0;
+        }
+
+        .error-container p {
+            color: #b0b0b0;
+            margin: 0;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .spec-card {
+            background: rgba(123, 97, 255, 0.05);
+            border: 1px solid rgba(123, 97, 255, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .spec-card:hover {
+            background: rgba(123, 97, 255, 0.1);
+            border-color: rgba(123, 97, 255, 0.4);
+        }
+
+        .spec-label {
+            font-size: 12px;
+            color: #7b61ff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .spec-value {
+            font-size: 20px;
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        .moons-list {
+            background: rgba(123, 97, 255, 0.05);
+            border: 1px solid rgba(123, 97, 255, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .moons-list h3 {
+            margin-top: 0;
+            color: #7b61ff;
+        }
+
+        .moon-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .details-content {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .type-badge {
+            display: inline-block;
+            background: rgba(123, 97, 255, 0.2);
+            color: #7b61ff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">🪐 Universe Odyssey</a>
+        <ul class="navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/planets">Explore</a></li>
+            <li><a href="/missions">Missions</a></li>
+        </ul>
+        <div class="auth-buttons" id="authButtons">
+            <a href="/login.html" class="btn btn-login">Log In</a>
+            <a href="/signup.html" class="btn btn-signup">Sign Up</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="ui-hero">
+            <a class="back-button" href="/planets">← Back to Planets</a>
+            <h1 class="title" id="planet-title">Loading...</h1>
+            <p class="subtitle" id="planet-subtitle">High-fidelity planetary data and interactive 3D previews.</p>
+        </header>
+
+        <main id="content">
+            <!-- model will be injected here for Earth -->
+            <div id="modelContainer" class="model-wrapper"></div>
+
+            <!-- specs grid -->
+            <div id="specs" class="specs-grid" aria-live="polite"></div>
+
+            <!-- CTA -->
+            <div class="cta-row">
+                <a id="nasaCta" class="cta-btn" target="_blank" rel="noopener">Want to know more?</a>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="/js/site-ui.js"></script>
+
+    <script>
+        // Helper formatting
+        function formatNumberWithCommas(num) {
+            if (num === null || num === undefined) return '—';
+            if (typeof num === 'number') return num.toLocaleString('en-US', { maximumFractionDigits: 2 });
+            return String(num);
+        }
+
+        function formatMass(mass) {
+            if (!mass) return '—';
+            try {
+                const mv = (mass.massValue != null) ? mass.massValue : ((mass.mass_value != null) ? mass.mass_value : null);
+                const me = (mass.massExponent != null) ? mass.massExponent : ((mass.mass_exponent != null) ? mass.mass_exponent : null);
+                if (mv == null || me == null) return '—';
+                return `${mv} × 10^${me} kg`;
+            } catch (e) { return '—'; }
+        }
+
+        // UI helpers
+        function showSkeleton() {
+            const specsEl = document.getElementById('specs');
+            if (!specsEl) return;
+            const skeleton = `
+              <div class="spec-card" style="height:90px;"><div class="spec-label">Loading</div><div class="spec-value"> <div class='spinner' style='display:inline-block;width:18px;height:18px;border:3px solid rgba(123,97,255,0.15);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite'></div></div></div>
+              <div class="spec-card" style="height:90px;"></div>
+              <div class="spec-card" style="height:90px;"></div>
+            `;
+            specsEl.innerHTML = skeleton;
+        }
+
+        function showLoading() {
+            const titleEl = document.getElementById('planet-title');
+            if (titleEl) titleEl.textContent = 'Loading...';
+            showSkeleton();
+        }
+
+        function showError(message) {
+            const titleEl = document.getElementById('planet-title');
+            if (titleEl) titleEl.textContent = 'Error Loading Planet';
+            const specsEl = document.getElementById('specs');
+            if (!specsEl) return;
+            specsEl.innerHTML = `
+                <div class="error-container" role="alert">
+                    <h2>Unable to load planet</h2>
+                    <p>${escapeHtml(message)}</p>
+                    <div>
+                        <button id="retryBtn" class="cta-btn">Retry</button>
+                        <a class="cta-btn" href="/planets" style="margin-left:12px;background:transparent;border:1px solid rgba(255,255,255,0.06);">Back</a>
+                    </div>
+                </div>
+            `;
+            const retry = document.getElementById('retryBtn');
+            if (retry) retry.addEventListener('click', () => loadPlanetData());
+        }
+
+        function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]); }
+
+        async function modelExists(path){
+            try{
+                const res = await fetch(path, { method: 'HEAD' });
+                return res.ok;
+            }catch(e){ return false; }
+        }
+
+        async function loadPlanetData() {
+            // determine planet name from query or path
+            const params = new URLSearchParams(window.location.search);
+            let planetName = params.get('planet');
+            if(!planetName){
+                const parts = window.location.pathname.split('/').filter(Boolean);
+                if(parts.length && parts[0].toLowerCase() === 'planet' && parts[1]) planetName = parts[1];
+            }
+            if (!planetName) { showError('No planet specified'); return; }
+            const planetKey = planetName.toLowerCase();
+            try { window.history.replaceState({}, '', '/planet/' + encodeURIComponent(planetKey)); } catch(e) { }
+
+            showLoading();
+
+            try{
+                const response = await fetch(`/api/planets/${encodeURIComponent(planetName)}`);
+                if (!response.ok) throw new Error('Planet data not found');
+                const data = await response.json();
+                displayPlanetDetails(data, planetName);
+
+                // Model handling - try specific model then generic
+                const modelPath = data.modelUrl || `/models/${planetKey}.glb`;
+                if (await modelExists(modelPath)){
+                    injectModelViewerIfAvailable('#modelContainer', modelPath).then(() => {
+                        // fade-in handled by CSS
+                    });
+                } else if (data.nasaImageUrl) {
+                    const container = document.querySelector('#modelContainer');
+                    if (container) {
+                        container.innerHTML = `<img src="${escapeHtml(data.nasaImageUrl)}" alt="${escapeHtml(data.name||planetName)}" style="width:100%;max-width:900px;height:auto;border-radius:12px;display:block;margin:20px auto;" onerror="this.src='/assets/planet-placeholder.jpg'">`;
+                    }
+                }
+            } catch(err){
+                console.error(err);
+                showError(err.message || 'Unknown error');
+            }
+        }
+
+        function displayPlanetDetails(data, planetName){
+            const titleEl = document.getElementById('planet-title');
+            if (titleEl) titleEl.textContent = data.name || planetName || 'Planet';
+
+            const specsEl = document.getElementById('specs');
+            if (!specsEl) return;
+
+            const cards = [];
+            if (data.gravity != null) cards.push({label:'Surface Gravity', value: formatNumberWithCommas(data.gravity) + ' m/s²'});
+            if (data.radius != null) cards.push({label:'Radius', value: formatNumberWithCommas(data.radius) + ' km'});
+            if (data.mass != null) cards.push({label:'Mass', value: formatMass(data.mass)});
+            if (data.moons != null) cards.push({label:'Moons', value: data.moons});
+            if (data.distanceFromSun != null) cards.push({label:'Distance from Sun', value: formatNumberWithCommas(data.distanceFromSun) + ' million km'});
+            if (data.orbitalPeriod != null) cards.push({label:'Orbital Period', value: formatNumberWithCommas(data.orbitalPeriod) + ' days'});
+            if (data.temperature != null) cards.push({label:'Surface Temperature', value: formatNumberWithCommas(data.temperature) + ' K'});
+            if (data.atmosphere) cards.push({label:'Atmosphere', value: escapeHtml(data.atmosphere)});
+
+            specsEl.innerHTML = cards.map(c => `
+                <div class="spec-card">
+                  <div class="spec-label">${c.label}</div>
+                  <div class="spec-value">${c.value}</div>
+                </div>
+            `).join('');
+
+            // descriptions
+            let descHTML = '';
+            if (data.shortDescription) descHTML += `<div class="spec-card" style="grid-column:1/-1"><div class="spec-label">Overview</div><div style="color:#c0c0c0;line-height:1.6;">${escapeHtml(data.shortDescription)}</div></div>`;
+            if (data.longDescription) descHTML += `<div class="spec-card" style="grid-column:1/-1"><div class="spec-label">Details</div><div style="color:#c0c0c0;line-height:1.6;">${escapeHtml(data.longDescription)}</div></div>`;
+            if (descHTML) specsEl.insertAdjacentHTML('afterend', descHTML);
+
+            const nasaCta = document.getElementById('nasaCta');
+            if (nasaCta) {
+                nasaCta.href = `https://www.nasa.gov/search?q=${encodeURIComponent(data.name||planetName)}`;
+                nasaCta.textContent = `Want to know more about ${data.name || planetName}?`;
+            }
+
+            // reveal animation
+            setTimeout(() => document.querySelectorAll('.spec-card').forEach(el => el.classList.add('visible')), 50);
+        }
+
+        // Start
+        window.addEventListener('load', loadPlanetData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Missions</title>
+</head>
+<body>
+
+<h1>Space Missions</h1>
+
+<a href="/admin/missions/new">Add New Mission</a>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Launch Date</th>
+        <th>Details</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr th:each="mission : ${missions}">
+        <td th:text="${mission.id}"></td>
+        <td th:text="${mission.name}"></td>
+        <td th:text="${mission.launchDate}"></td>
+        <td th:text="${mission.description}"></td>
+        <td>
+            <a th:href="@{'/admin/missions/edit/' + ${mission.id}}">Edit</a>
+            <a th:href="@{'/admin/missions/delete/' + ${mission.id}}">Delete</a>
+        </td>
+    </tr>
+
+</table>
+
+</body>
+</html>

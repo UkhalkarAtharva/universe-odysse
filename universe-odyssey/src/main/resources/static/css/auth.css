@@ -1,0 +1,61 @@
+/* Shared auth styles for login/signup/admin pages */
+:root{
+    --bg:#0b0d17;
+    --card-bg: rgba(10,10,20,0.55);
+    --card-border: rgba(255,255,255,0.06);
+    --accent1:#6a4cff;
+    --accent2:#4cd3ff;
+    --muted:#9aa3c7;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#e6eef8}
+
+/* fullscreen video background */
+.bg-video{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-1}
+
+.auth-shell{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.auth-card{width:100%;max-width:420px;padding:34px;border-radius:18px;background:var(--card-bg);backdrop-filter:blur(12px);border:1px solid var(--card-border);box-shadow:0 12px 40px rgba(2,6,23,0.6)}
+.auth-brand{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px}
+.brand-title{font-family:'Space Grotesk',sans-serif;font-size:22px;margin:0}
+.brand-sub{color:var(--muted);font-size:13px;margin:0}
+
+.form-group{display:flex;flex-direction:column;margin-top:12px}
+.form-group label{font-size:12px;color:var(--muted);margin-bottom:6px}
+.form-control{width:100%;padding:14px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:#fff;font-family:Inter;font-size:14px}
+.form-control:focus{outline:none;box-shadow:0 8px 30px rgba(106,76,255,0.12);border-color:rgba(106,76,255,0.6)}
+
+.btn{display:inline-block;padding:12px 18px;border-radius:12px;border:none;font-weight:700;color:#071128;background:linear-gradient(90deg,var(--accent2),var(--accent1));cursor:pointer;box-shadow:0 8px 30px rgba(106,76,255,0.12);transition:transform .12s ease}
+.btn:hover{transform:translateY(-2px)}
+
+.meta-row{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.meta-row a{color:var(--muted);font-size:13px;text-decoration:none}
+
+.msg{margin-top:12px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);color:#ffdede}
+.msg.success{background:rgba(76,196,255,0.06);color:#d9fff7}
+
+@media (max-width:480px){.auth-card{padding:22px;border-radius:14px}}
+
+/* Password toggle */
+.password-wrapper{position:relative}
+.password-wrapper .form-control{padding-right:44px}
+.toggle-password{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;color:rgba(255,255,255,0.9);opacity:0.9}
+.toggle-password svg{width:18px;height:18px}
+
+/* shake animation for login failure */
+@keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+.auth-card.shake { animation: shake 0.6s ease; }
+
+/* Toast + loader used by admin */
+.toast{position:fixed;right:20px;bottom:20px;padding:12px 18px;border-radius:10px;background:rgba(5,10,20,0.85);color:#fff;opacity:0;transform:translateY(8px);transition:all .28s ease;z-index:1200}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast-success{box-shadow:0 12px 40px rgba(76,212,255,0.08)}
+.toast-error{background:linear-gradient(90deg,#ff6b6b,#ff8a6b)}
+.loader{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:1300}
+.loader .spinner{width:40px;height:40px;border-radius:50%;border:4px solid rgba(255,255,255,0.06);border-top-color:var(--accent1);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* modal animations */
+.modal.fade-in{animation:fadeIn .18s ease}
+.modal-content.scale-in{animation:scaleIn .18s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes scaleIn{from{transform:scale(.98);opacity:0}to{transform:scale(1);opacity:1}}
+

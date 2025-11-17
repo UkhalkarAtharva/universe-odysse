@@ -1,0 +1,75 @@
+/* chat.css - styles for Cosmos AI chat page */
+:root{
+  --neon:#7b61ff;
+  --bg1:#0f1724;
+  --glass: rgba(255,255,255,0.03);
+}
+body.cosmos-body{
+  background: radial-gradient(circle at 10% 20%, rgba(123,97,255,0.06), transparent 10%), linear-gradient(180deg, var(--bg1), #07101b);
+  color:#e6eef8;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+.cosmos-container{max-width:1200px;margin:28px auto;padding:16px}
+.cosmos-header{padding:8px 12px;margin-bottom:12px}
+.cosmos-header h1{font-size:1.6rem;color:var(--neon);margin:0}
+.cosmos-header .sub{color:#9fb0cc;font-size:0.9rem;margin:2px 0 0}
+.cosmos-main{display:grid;grid-template-columns:320px 1fr;gap:20px}
+.cosmos-left{background:var(--glass);padding:12px;border-radius:12px;border:1px solid rgba(123,97,255,0.08)}
+.model-area{min-height:300px;display:flex;align-items:center;justify-content:center}
+.model-placeholder{color:#9fb0cc}
+.cosmos-right{display:flex;flex-direction:column;gap:12px}
+.chat-window{background:rgba(0,0,0,0.25);border-radius:12px;padding:12px;min-height:420px;max-height:60vh;overflow:auto;border:1px solid rgba(255,255,255,0.03)}
+.messages{display:flex;flex-direction:column;gap:10px}
+.msg{display:flex}
+.msg.user{justify-content:flex-start}
+.msg.ai{justify-content:flex-end}
+.bubble{max-width:78%;padding:10px 14px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));box-shadow:0 6px 18px rgba(0,0,0,0.6);color:#eaf3ff}
+.msg.user .bubble{border-radius:14px 14px 14px 4px;background:linear-gradient(180deg,#0b1220,#07101b);color:#cfe6ff}
+.msg.ai .bubble{border-radius:14px 14px 4px 14px;background:linear-gradient(90deg,var(--neon),#00d4ff);color:#02101a}
+.msg.ai.typing .dot{display:inline-block;width:7px;height:7px;margin:0 2px;background:#ffffff;border-radius:50%;opacity:0.85;animation:blink 1s infinite}
+@keyframes blink{0%{opacity:0.25}50%{opacity:1}100%{opacity:0.25}}
+.chat-form{display:flex;gap:8px;margin-top:6px}
+.chat-input{flex:1;padding:12px 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:#e6eef8}
+.btn.neon{background:linear-gradient(90deg,var(--neon),#00d4ff);color:#02101a;padding:10px 18px;border-radius:999px;border:none;box-shadow:0 6px 30px rgba(123,97,255,0.18)}
+.btn.neon:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(123,97,255,0.28)}
+.cosmos-footer{margin-top:12px;color:#88a6c2;font-size:0.85rem;text-align:center}
+
+/* Responsive */
+@media (max-width:1024px) {
+  .cosmos-container{padding:14px}
+  .cosmos-main{grid-template-columns:1fr}
+  .chat-window{max-height:65vh}
+}
+
+@media (max-width:900px) {
+  .cosmos-main{grid-template-columns:1fr}
+  /* default on smaller tablets: place chat above model for quicker access */
+  .cosmos-left{order:2}
+  .cosmos-right{order:1}
+  .chat-window{min-height:360px;max-height:68vh}
+}
+
+@media (max-width:480px) {
+  /* Mobile: model preview above chat */
+  .cosmos-main{grid-template-columns:1fr}
+  .cosmos-left{order:1}
+  .cosmos-right{order:2}
+  .model-area{margin-bottom:12px}
+  .model-area, .model-placeholder{width:100%}
+
+  /* Chat window full width and touch-friendly input */
+  .chat-window{min-height:320px;max-height:60vh;padding:10px}
+  .chat-input{padding:14px 16px;font-size:1rem;border-radius:999px}
+  .chat-form{flex-direction:row;gap:8px}
+  .btn.neon{padding:12px 14px}
+
+  /* Messages: avoid overflow and allow wrapping */
+  .messages{gap:8px}
+  .bubble{max-width:100%;word-break:break-word;white-space:pre-wrap}
+  .msg.user .bubble,.msg.ai .bubble{max-width:92%}
+  .msg{padding-left:6px;padding-right:6px}
+
+  /* Slightly reduce header sizes */
+  .cosmos-header h1{font-size:1.25rem}
+  .cosmos-header .sub{font-size:0.85rem}
+}
