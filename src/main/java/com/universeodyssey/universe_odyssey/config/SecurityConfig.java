@@ -29,6 +29,7 @@ public class SecurityConfig {
                         // Static assets and frontend SPA
                         .requestMatchers(
                                 "/",
+                                "/health",
                                 "/index.html",
                                 "/login.html",
                                 "/signup.html",
