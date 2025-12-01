@@ -1,109 +1,84 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/fragments/admin-layout}">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Manage Users</title>
-  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+  <title>User Management</title>
 </head>
+
 <body>
-  <!-- Background Video + Overlay -->
-  <video class="admin-bg-video" autoplay muted loop playsinline>
-    <source src="/videos/0_Space_Stars_3840x2160.mp4" type="video/mp4" />
-  </video>
-  <div class="admin-overlay"></div>
-
-  <!-- Fixed Header -->
-  <header class="admin-header">
-    <div class="header-content">
-      <div class="header-brand">
-        <h1>Admin Panel</h1>
+  <div layout:fragment="content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">User Management</h1>
+        <p class="page-subtitle">Manage access and roles for all explorers.</p>
       </div>
-      <nav class="header-nav">
-        <a href="/admin/dashboard" class="nav-link">Dashboard</a>
-        <a href="/admin/planets" class="nav-link">Planets</a>
-        <a href="/admin/facts" class="nav-link">Facts</a>
-        <a href="/admin/users" class="nav-link">Users</a>
-        <a href="/logout" class="nav-link logout">Logout</a>
-      </nav>
+      <button class="btn btn-primary">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+        </svg>
+        Add User
+      </button>
     </div>
-  </header>
 
-  <!-- Main Content -->
-  <main class="admin-main">
-    <div class="admin-content">
-      <div class="page-header">
-        <div>
-          <h1 class="page-title">Manage Users</h1>
-          <p class="page-subtitle">View, edit, and manage user accounts</p>
-        </div>
+    <div class="glass-card">
+      <div class="table-container">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Joined Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="user : ${users}">
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <div class="avatar" style="width: 36px; height: 36px; font-size: 0.875rem;"
+                    th:text="${#strings.substring(user.username,0,1)}">U</div>
+                  <div>
+                    <div style="font-weight: 500; color: white;" th:text="${user.username}">Username</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);" th:text="${user.email}">user@example.com
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="badge badge-purple" th:if="${user.role == 'ROLE_ADMIN'}">Admin</span>
+                <span class="badge badge-info" th:if="${user.role == 'ROLE_USER'}">Explorer</span>
+              </td>
+              <td>
+                <span class="badge badge-success">Active</span>
+              </td>
+              <td th:text="${#temporals.format(user.createdAt, 'dd MMM yyyy')}">12 Dec 2024</td>
+              <td>
+                <div style="display: flex; gap: 0.5rem;">
+                  <button class="btn-icon" title="Edit">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                      </path>
+                    </svg>
+                  </button>
+                  <button class="btn-icon" title="Ban User" style="color: var(--neon-red);">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636">
+                      </path>
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
-      <div class="cards-grid">
-        <!-- USER CARD -->
-        <div class="user-card" th:each="user : ${users}" th:data-user-id="${user.id}">
-          <div class="user-card-head">
-            <div class="user-avatar" th:text="${#strings.substring(user.username,0,1).toUpperCase()}">A</div>
-            <div>
-              <div class="user-card-name" th:text="${user.username}">username</div>
-              <div class="user-card-meta" th:text="${user.email}">email</div>
-            </div>
-          </div>
-
-          <div class="user-card-body">
-            <p><strong>Role:</strong> <span th:text="${user.role}">ROLE_USER</span></p>
-            <p><strong>Status:</strong> <span>Active</span></p>
-            <p><strong>Created:</strong> <span>Not Available</span></p>
-          </div>
-
-          <div style="display: flex; gap: 8px; margin-top: 16px;">
-            <button class="btn-primary" th:data-user-id="${user.id}" onclick="openEditUserModal(this.dataset.userId)" style="flex: 1;">Edit</button>
-            <button class="btn-danger" th:data-user-id="${user.id}" onclick="confirmDelete('/admin/api/users/' + this.dataset.userId)" style="flex: 1;">Delete</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="admin-footer">
-    <p>&copy; 2025 Universe Odyssey Admin. All rights reserved.</p>
-  </footer>
-
-  <!-- EDIT USER MODAL -->
-  <div id="edit-user-modal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Edit User</h3>
-        <span class="modal-close" onclick="closeEditUserModal()">×</span>
-      </div>
-
-      <form id="edit-user-form" onsubmit="submitEditUser(event)">
-        <input type="hidden" id="edit-user-id" />
-
-        <div class="form-group">
-          <input id="edit-username" class="form-control" placeholder=" " required />
-          <label>Username</label>
-        </div>
-
-        <div class="form-group">
-          <input id="edit-email" class="form-control" placeholder=" " required />
-          <label>Email</label>
-        </div>
-
-        <div class="form-group">
-          <input id="edit-role" class="form-control" placeholder=" " required />
-          <label>Role</label>
-        </div>
-
-        <div style="display: flex; gap: 12px; margin-top: 24px;">
-          <button type="button" class="btn-secondary" onclick="closeEditUserModal()" style="flex: 1;">Cancel</button>
-          <button type="submit" class="btn-primary" style="flex: 1;">Save Changes</button>
-        </div>
-      </form>
     </div>
   </div>
-
-  <script th:src="@{/js/admin.js}"></script>
 </body>
+
 </html>

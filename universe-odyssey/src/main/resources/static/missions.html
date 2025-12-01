@@ -1,31 +1,71 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Missions - Universe Odyssey</title>
-  <link rel="stylesheet" href="/css/navbar.css">
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/site-ui.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Missions - Universe Odyssey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css">
+    <style>
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
 </head>
-<body>
-  <nav class="navbar">
-    <a href="/" class="navbar-brand">🪐 Universe Odyssey</a>
-    <ul class="navbar-nav"><li><a href="/">Home</a></li><li><a href="/planets">Explore</a></li><li><a href="/missions">Missions</a></li></ul>
-    <div class="auth-buttons"><a href="/login.html" class="btn btn-login">Log In</a></div>
-  </nav>
 
-  <div class="container">
-    <header class="ui-hero">
-      <h1 class="title">Missions</h1>
-      <p class="subtitle">Explore historic and active missions across the solar system.</p>
-    </header>
+<body class="bg-[#0B0E14] text-[#E2E8F0] font-['Outfit']">
+    <nav class="glass-panel sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/"
+                        class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                        Universe Odyssey
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="/"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="/quiz"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Daily
+                            Quiz</a>
+                        <a href="/leaderboard"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Leaderboard</a>
+                        <a href="/missions"
+                            class="text-blue-400 bg-blue-900/20 px-3 py-2 rounded-md text-sm font-medium">Missions</a>
+                        <a href="/news"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">News</a>
+                        <a href="/blogs"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Blogs</a>
+                    </div>
+                </div>
+                <!-- Auth Section -->
+                <div id="navbar-auth" class="flex items-center">
+                    <!-- Content injected by navbar.js -->
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    <section>
-      <div id="missionsContainer" class="missions-grid" aria-live="polite"></div>
-    </section>
-  </div>
+    <main class="container mx-auto px-4 py-8">
+        <div class="ui-hero text-center mb-10">
+            <h1 class="title text-4xl font-bold text-white mb-2">Space Missions</h1>
+            <p class="subtitle muted text-blue-300">Explore past, present, and future missions.</p>
+        </div>
 
-  <script src="/js/site-ui.js"></script>
+        <div id="missionsContainer" class="missions-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            aria-live="polite">
+            <!-- Content injected by site-ui-v2.js -->
+        </div>
+    </main>
+
+    <script src="/js/navbar.js"></script>
+    <script src="/js/site-ui-v2.js"></script>
 </body>
+
 </html>

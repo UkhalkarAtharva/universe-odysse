@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,10 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/site.css">
     <link rel="stylesheet" href="/css/site-ui.css">
@@ -92,6 +95,7 @@
                 opacity: 0;
                 transform: translateX(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -277,7 +281,9 @@
         }
 
         @keyframes spinner {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .login-link {
@@ -357,13 +363,14 @@
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar">
         <a href="/" class="navbar-brand">🪐 Universe Odyssey</a>
         <ul class="navbar-nav">
             <li><a href="/">Home</a></li>
             <li><a href="/planets">Explore</a></li>
-                <li><a href="/missions">Missions</a></li>
+            <li><a href="/missions">Missions</a></li>
         </ul>
         <div class="auth-buttons" id="authButtons">
             <a href="/login.html" class="btn btn-login">Log In</a>
@@ -390,51 +397,32 @@
                     <form id="signupForm">
                         <div class="form-group">
                             <label for="fullName">Full Name</label>
-                            <input 
-                                type="text" 
-                                id="fullName" 
-                                name="fullName" 
-                                placeholder="Enter your full name"
-                                required
-                            >
+                            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name"
+                                required>
                             <div class="error-message" id="fullNameError"></div>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input 
-                                type="email" 
-                                id="email" 
-                                name="email" 
-                                placeholder="Enter your email"
-                                required
-                            >
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
                             <div class="error-message" id="emailError"></div>
                         </div>
 
                         <div class="form-group password-field">
                             <label for="password">Password</label>
-                            <input 
-                                type="password" 
-                                id="password" 
-                                name="password" 
-                                placeholder="Create a password"
-                                required
-                            >
-                            <button type="button" class="password-toggle" id="togglePassword" aria-pressed="false">Show</button>
+                            <input type="password" id="password" name="password" placeholder="Create a password"
+                                required>
+                            <button type="button" class="password-toggle" id="togglePassword"
+                                aria-pressed="false">Show</button>
                             <div class="error-message" id="passwordError"></div>
                         </div>
 
                         <div class="form-group password-field">
                             <label for="confirmPassword">Confirm Password</label>
-                            <input 
-                                type="password" 
-                                id="confirmPassword" 
-                                name="confirmPassword" 
-                                placeholder="Confirm your password"
-                                required
-                            >
-                            <button type="button" class="password-toggle" id="toggleConfirmPassword" aria-pressed="false">Show</button>
+                            <input type="password" id="confirmPassword" name="confirmPassword"
+                                placeholder="Confirm your password" required>
+                            <button type="button" class="password-toggle" id="toggleConfirmPassword"
+                                aria-pressed="false">Show</button>
                             <div class="error-message" id="confirmPasswordError"></div>
                         </div>
 
@@ -466,7 +454,7 @@
         const form = document.getElementById('signupForm');
         const submitBtn = document.getElementById('submitBtn');
         const alertBox = document.getElementById('alertBox');
-        
+
         // Password input references
         const passwordInput = document.getElementById('password');
         const confirmPasswordInput = document.getElementById('confirmPassword');
@@ -498,7 +486,7 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             // Clear previous errors
             clearErrors();
             alertBox.classList.remove('show');
@@ -565,7 +553,7 @@
                     showAlert(data.message, 'success');
                     form.reset();
                     validatePassword(); // Reset requirements display
-                    
+
                     // Redirect to login page after 2 seconds
                     setTimeout(() => {
                         window.location.href = '/login.html?signup=success';
@@ -585,12 +573,12 @@
         function showError(fieldName, message) {
             const errorElement = document.getElementById(fieldName + 'Error');
             const inputElement = document.getElementById(fieldName);
-            
+
             if (errorElement) {
                 errorElement.textContent = message;
                 errorElement.classList.add('show');
             }
-            
+
             if (inputElement) {
                 inputElement.classList.add('error');
             }
@@ -644,4 +632,5 @@
         })();
     </script>
 </body>
+
 </html>

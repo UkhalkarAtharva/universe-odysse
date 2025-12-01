@@ -22,67 +22,72 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-            .csrf(csrf -> csrf.disable())
-            .authenticationProvider(authenticationProvider())
+                .csrf(csrf -> csrf.disable())
+                .authenticationProvider(authenticationProvider())
 
-            .authorizeHttpRequests(auth -> auth
-                // Static assets and frontend SPA
-                .requestMatchers(
-                        "/",
-                        "/index.html",
-                        "/login.html",
-                        "/signup.html",
-                        "/css/**",
-                        "/js/**",
-                        "/assets/**",
-                        "/videos/**",
-                        "/animations/**",
-                        "/favicon.png"
-                ).permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        // Static assets and frontend SPA
+                        .requestMatchers(
+                                "/",
+                                "/index.html",
+                                "/login.html",
+                                "/signup.html",
+                                "/css/**",
+                                "/js/**",
+                                "/assets/**",
+                                "/videos/**",
+                                "/animations/**",
+                                "/favicon.png")
+                        .permitAll()
 
-                // Frontend SPA routes (forward to React)
-                .requestMatchers(
-                        "/home",
-                        "/planets",
-                        "/missions",
-                        "/facts",
-                        "/about",
-                        "/explore",
-                        "/planet/**"
-                ).permitAll()
+                        // Frontend SPA routes (forward to React)
+                        .requestMatchers(
+                                "/home",
+                                "/planets",
+                                "/missions",
+                                "/facts",
+                                "/about",
+                                "/explore",
+                                "/news",
+                                "/news/**",
+                                "/blogs",
+                                "/blogs/**",
+                                "/planet/**")
+                        .permitAll()
 
-                // Public API endpoints
-                .requestMatchers("/api/**").permitAll()
+                        // Quiz & Leaderboard endpoints - allow public access (auth checked in
+                        // view/controller)
+                        .requestMatchers("/api/quiz/**", "/api/leaderboard/**").permitAll()
+                        .requestMatchers("/quiz", "/leaderboard").permitAll()
+                        // Other public API endpoints
+                        .requestMatchers("/api/**").permitAll()
 
-                // User authentication routes
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/signup/**", "/login/**").permitAll()
+                        // User authentication routes
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/signup/**", "/login/**").permitAll()
 
-                // Admin login (before authentication required)
-                .requestMatchers("/admin/login", "/admin/auth/**").permitAll()
+                        // Admin login (before authentication required)
+                        .requestMatchers("/admin/login", "/admin/auth/**").permitAll()
 
-                // Admin area - require ADMIN role
-                .requestMatchers("/admin/**").hasRole("ADMIN")
+                        // Admin area - require ADMIN role
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
 
-                // User profile - require authentication
-                .requestMatchers("/profile/**", "/profile", "/user/**").authenticated()
+                        // User profile - require authentication
+                        .requestMatchers("/profile/**", "/profile", "/user/**").authenticated()
 
-                // Everything else allowed
-                .anyRequest().permitAll()
-            )
+                        // Everything else allowed
+                        .anyRequest().permitAll())
 
-            .formLogin(form -> form
-                .loginPage("/admin/login")
-                .loginProcessingUrl("/admin/process-login")
-                .successHandler(new com.universeodyssey.universe_odyssey.security.AdminAuthSuccessHandler())
-                .permitAll()
-            )
+                .formLogin(form -> form
+                        .loginPage("/admin/login")
+                        .loginProcessingUrl("/admin/process-login")
+                        .successHandler(new com.universeodyssey.universe_odyssey.security.AdminAuthSuccessHandler())
+                        .permitAll())
 
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .permitAll()
-            );
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .permitAll());
 
         return http.build();
     }

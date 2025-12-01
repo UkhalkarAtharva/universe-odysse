@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Leaderboard - Universe Odyssey</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #0B0E14;
+            color: #E2E8F0;
+            overflow-x: hidden;
+            background-image: url('/images/background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #38BDF8 0%, #3B82F6 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .rank-1 {
+            color: #FCD34D;
+            text-shadow: 0 0 10px rgba(252, 211, 77, 0.5);
+        }
+
+        .rank-2 {
+            color: #E5E7EB;
+            text-shadow: 0 0 10px rgba(229, 231, 235, 0.5);
+        }
+
+        .rank-3 {
+            color: #FDBA74;
+            text-shadow: 0 0 10px rgba(253, 186, 116, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="glass-panel sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/"
+                        class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                        Universe Odyssey
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="/"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="/quiz"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Daily
+                            Quiz</a>
+                        <a href="/leaderboard"
+                            class="text-blue-400 bg-blue-900/20 px-3 py-2 rounded-md text-sm font-medium">Leaderboard</a>
+                        <a href="/missions"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Missions</a>
+                        <a href="/news"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">News</a>
+                        <a href="/blogs"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Blogs</a>
+                    </div>
+                </div>
+                <!-- Auth Section -->
+                <div id="navbar-auth" class="flex items-center">
+                    <!-- Content injected by navbar.js -->
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script src="/js/navbar.js"></script>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <div class="text-center mb-12" data-aos="fade-down">
+            <h1 class="text-4xl font-bold text-white mb-2">Galactic Leaderboard</h1>
+            <p class="text-blue-300">Top explorers of the universe</p>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-1" data-aos="fade-up">
+            <!-- Loading State -->
+            <div id="loading" class="flex flex-col items-center justify-center py-20">
+                <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+                <p class="text-xl text-blue-300">Loading Rankings...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="error-message" class="hidden text-center py-10">
+                <div class="text-red-400 text-xl mb-4">⚠️ Failed to load leaderboard</div>
+                <button onclick="loadLeaderboard()"
+                    class="btn-primary px-6 py-2 rounded-lg text-white font-semibold">Try
+                    Again</button>
+            </div>
+
+            <!-- Login Required State -->
+            <div id="login-required" class="hidden text-center py-20">
+                <div class="inline-block p-4 rounded-full bg-blue-500/10 mb-6 border border-blue-500/20">
+                    <span class="text-5xl">🔒</span>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-3">Authentication Required</h2>
+                <p class="text-gray-400 mb-8 max-w-md mx-auto">You need to be logged in to view the leaderboard.</p>
+                <div class="flex justify-center gap-4">
+                    <a href="/login.html"
+                        class="btn-primary px-8 py-3 rounded-xl text-white font-bold shadow-lg hover:shadow-blue-500/30 transition-all">
+                        Login
+                    </a>
+                    <a href="/signup.html"
+                        class="px-8 py-3 rounded-xl border border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white transition-all font-semibold">
+                        Sign Up
+                    </a>
+                </div>
+            </div>
+
+            <!-- Leaderboard List -->
+            <div id="leaderboard-content" class="hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-gray-400 border-b border-gray-700">
+                                <th class="p-4 font-medium">Rank</th>
+                                <th class="p-4 font-medium">Explorer</th>
+                                <th class="p-4 font-medium text-right">XP</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-list" class="divide-y divide-gray-800">
+                            <!-- Rows injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        AOS.init();
+
+        async function loadLeaderboard() {
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('error-message').classList.add('hidden');
+            document.getElementById('login-required').classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/leaderboard');
+
+                if (response.status === 401 || response.url.includes('login')) {
+                    document.getElementById('loading').classList.add('hidden');
+                    document.getElementById('login-required').classList.remove('hidden');
+                    return;
+                }
+
+                if (!response.ok) throw new Error('Failed to fetch');
+
+                const data = await response.json();
+                renderLeaderboard(data);
+            } catch (error) {
+                console.error(error);
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('error-message').classList.remove('hidden');
+            }
+        }
+
+        function renderLeaderboard(users) {
+            const container = document.getElementById('leaderboard-list');
+            container.innerHTML = '';
+
+            users.forEach((user, index) => {
+                const rank = index + 1;
+                let rankClass = 'text-gray-300';
+                let rowClass = 'hover:bg-gray-800/30 transition-colors';
+
+                if (rank === 1) { rankClass = 'rank-1 font-bold text-xl'; rowClass += ' bg-yellow-500/5'; }
+                else if (rank === 2) { rankClass = 'rank-2 font-bold text-lg'; rowClass += ' bg-gray-400/5'; }
+                else if (rank === 3) { rankClass = 'rank-3 font-bold text-lg'; rowClass += ' bg-orange-500/5'; }
+
+                const row = document.createElement('tr');
+                row.className = rowClass;
+                row.innerHTML = `
+                    <td class="p-4 ${rankClass}">#${rank}</td>
+                    <td class="p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white">
+                                ${user.username.charAt(0).toUpperCase()}
+                            </div>
+                            <span class="text-white font-medium">${user.username}</span>
+                        </div>
+                    </td>
+                    <td class="p-4 text-right font-mono text-blue-300">${user.totalPoints}</td>
+                `;
+                container.appendChild(row);
+            });
+
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('leaderboard-content').classList.remove('hidden');
+        }
+
+        // Start
+        loadLeaderboard();
+    </script>
+</body>
+
+</html>

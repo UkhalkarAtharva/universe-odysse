@@ -61,6 +61,9 @@ model-viewer{width:100%;height:500px;border-radius:12px;background:linear-gradie
 .moons-section .moon-item{background:var(--glass);padding:10px 12px;border-radius:10px;border:1px solid var(--card-border)}
 .moons-section .moons-list .moon-name{font-weight:600}
 
+.grid-two-column{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
 /* Global responsive breakpoints */
 @media (max-width:1024px) {
   .container{max-width:960px;padding:18px}
@@ -78,6 +81,8 @@ model-viewer{width:100%;height:500px;border-radius:12px;background:linear-gradie
   .missions-grid{grid-template-columns:repeat(2,1fr);gap:16px}
   .specs-grid{grid-template-columns:repeat(2,1fr);gap:14px}
   .spec-card{padding:14px}
+  .grid-two-column{grid-template-columns:1fr}
+  .info-grid{grid-template-columns:repeat(2,1fr)}
 }
 
 @media (max-width:480px) {
@@ -95,4 +100,7 @@ model-viewer{width:100%;height:500px;border-radius:12px;background:linear-gradie
   /* ensure images and large elements don't overflow */
   img, .planet-hero-image, model-viewer, .missions-grid img{max-width:100%;height:auto;display:block}
   .break-word{word-break:break-word;overflow-wrap:break-word}
+  .grid-two-column{display:block}
+  .info-grid{grid-template-columns:1fr}
+  .moons-list{display:flex;flex-direction:column}
 }

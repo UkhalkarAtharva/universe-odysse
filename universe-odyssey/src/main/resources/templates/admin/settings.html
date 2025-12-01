@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{admin/fragments/admin-layout}">
+
+<head>
+    <title>Settings</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">System Configuration</h1>
+                <p class="page-subtitle">Manage API keys, integrations, and system parameters.</p>
+            </div>
+            <button class="btn btn-primary">Save Changes</button>
+        </div>
+
+        <div class="grid-3-1" style="grid-template-columns: 2fr 1fr;">
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- API Keys -->
+                <div class="glass-card">
+                    <h3 style="font-weight: 600; color: white; margin-bottom: 1.5rem;">API Integrations</h3>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem;">NASA API
+                            Key</label>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="password" value="DEMO_KEY_12345" class="search-input" style="flex: 1;">
+                            <button class="btn btn-glass">Show</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem;">ESA RSS Feed
+                            URL</label>
+                        <input type="text" value="https://www.esa.int/rssfeed/Our_Activities/Space_News"
+                            class="search-input" style="width: 100%;">
+                    </div>
+                </div>
+
+                <!-- Cron Jobs -->
+                <div class="glass-card">
+                    <h3 style="font-weight: 600; color: white; margin-bottom: 1.5rem;">Automated Tasks (Cron)</h3>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                        <div>
+                            <div style="color: white; font-weight: 500;">News Fetch Cycle</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">Runs every 6 hours</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0;">
+                        <div>
+                            <div style="color: white; font-weight: 500;">Database Backup</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">Runs daily at 00:00 UTC</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Logs -->
+            <div class="glass-card" style="height: fit-content;">
+                <h3 style="font-weight: 600; color: white; margin-bottom: 1.5rem;">System Logs</h3>
+                <div
+                    style="font-family: monospace; font-size: 0.75rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div><span style="color: var(--neon-green);">[INFO]</span> 12:05:01 - News fetch initiated</div>
+                    <div><span style="color: var(--neon-green);">[INFO]</span> 12:05:03 - 5 new articles found</div>
+                    <div><span style="color: var(--neon-blue);">[DEBUG]</span> 12:10:00 - Cache cleared</div>
+                    <div><span style="color: var(--neon-red);">[WARN]</span> 11:45:22 - High latency detected</div>
+                    <div><span style="color: var(--neon-green);">[INFO]</span> 11:00:00 - Backup successful</div>
+                </div>
+                <button class="btn btn-glass" style="width: 100%; margin-top: 1.5rem; font-size: 0.75rem;">Download Full
+                    Log</button>
+            </div>
+        </div>
+
+        <style>
+            /* Toggle Switch */
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 40px;
+                height: 24px;
+            }
+
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(255, 255, 255, 0.1);
+                transition: .4s;
+                border-radius: 24px;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 16px;
+                width: 16px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                transition: .4s;
+                border-radius: 50%;
+            }
+
+            input:checked+.slider {
+                background-color: var(--neon-purple);
+            }
+
+            input:checked+.slider:before {
+                transform: translateX(16px);
+            }
+        </style>
+    </div>
+</body>
+
+</html>

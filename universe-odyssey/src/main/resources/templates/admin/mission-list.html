@@ -1,35 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{admin/fragments/admin-layout}">
+
 <head>
-    <title>Missions</title>
+    <title>Manage Missions</title>
 </head>
+
 <body>
+    <div layout:fragment="content">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Space Missions</h1>
+                <p style="color: var(--text-muted);">Track and manage NASA missions</p>
+            </div>
+            <a href="/admin/missions/new" class="btn btn-primary">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+                Add New Mission
+            </a>
+        </div>
 
-<h1>Space Missions</h1>
-
-<a href="/admin/missions/new">Add New Mission</a>
-
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Launch Date</th>
-        <th>Details</th>
-        <th>Actions</th>
-    </tr>
-
-    <tr th:each="mission : ${missions}">
-        <td th:text="${mission.id}"></td>
-        <td th:text="${mission.name}"></td>
-        <td th:text="${mission.launchDate}"></td>
-        <td th:text="${mission.description}"></td>
-        <td>
-            <a th:href="@{'/admin/missions/edit/' + ${mission.id}}">Edit</a>
-            <a th:href="@{'/admin/missions/delete/' + ${mission.id}}">Delete</a>
-        </td>
-    </tr>
-
-</table>
-
+        <div class="table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Mission Name</th>
+                        <th>Launch Date</th>
+                        <th>Details</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="mission : ${missions}">
+                        <td>
+                            <div style="font-weight: 600; color: white;" th:text="${mission.name}">Mission Name</div>
+                        </td>
+                        <td style="font-family: monospace; color: var(--text-muted);" th:text="${mission.launchDate}">
+                            2025-01-01</td>
+                        <td style="max-width: 400px;">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted);"
+                                th:text="${mission.description}">Description...</div>
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a th:href="@{'/admin/missions/edit/' + ${mission.id}}" class="btn btn-sm"
+                                    style="background: rgba(255,255,255,0.1); color: white;">Edit</a>
+                                <a th:href="@{'/admin/missions/delete/' + ${mission.id}}" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Delete this mission?');">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
+
 </html>

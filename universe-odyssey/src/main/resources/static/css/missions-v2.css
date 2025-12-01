@@ -1,0 +1,250 @@
+/* ========================================
+   MISSIONS PAGE STYLES V2 (Premium)
+   ======================================== */
+
+:root {
+    --primary-color: #7c3aed;
+    --secondary-color: #a5b4fc;
+    --bg-dark: #0f0c29;
+    --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.12);
+    --text-main: #e0e0e0;
+    --text-muted: #94a3b8;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.missions-container {
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background: var(--bg-gradient);
+    position: relative;
+}
+
+/* Background Stars Effect (Optional enhancement) */
+.missions-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(white, rgba(255, 255, 255, .2) 2px, transparent 3px),
+        radial-gradient(white, rgba(255, 255, 255, .15) 1px, transparent 2px),
+        radial-gradient(white, rgba(255, 255, 255, .1) 2px, transparent 3px);
+    background-size: 550px 550px, 350px 350px, 250px 250px;
+    background-position: 0 0, 40px 60px, 130px 270px;
+    opacity: 0.4;
+    pointer-events: none;
+
+    .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 2000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-content {
+        background: #16162a;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 24px;
+        width: 100%;
+        max-width: 850px;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.7);
+        animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        z-index: 10;
+        transition: all 0.2s;
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(90deg);
+    }
+
+    .modal-image-wrapper {
+        width: 100%;
+        height: 350px;
+        background: #000;
+        position: relative;
+    }
+
+    .modal-image-wrapper::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        background: linear-gradient(to top, #16162a, transparent);
+    }
+
+    .modal-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .modal-body {
+        padding: 2.5rem;
+        position: relative;
+    }
+
+    .modal-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin: 0 0 0.5rem 0;
+        color: #fff;
+        line-height: 1.1;
+    }
+
+    .modal-date {
+        color: var(--secondary-color);
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        display: inline-block;
+        background: rgba(165, 180, 252, 0.1);
+        padding: 0.25rem 0.75rem;
+        border-radius: 8px;
+    }
+
+    .modal-description {
+        color: #d1d5db;
+        line-height: 1.8;
+        font-size: 1.05rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .modal-footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.missions-loading,
+.missions-error {
+    text-align: center;
+    padding: 6rem 0;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    animation: spin 1s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .missions-title {
+        font-size: 2.5rem;
+    }
+
+    .missions-list-header {
+        display: none;
+    }
+
+    .mission-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        padding: 1.25rem;
+    }
+
+    .col-status {
+        justify-content: flex-start;
+    }
+
+    .mission-row::after {
+        display: none;
+    }
+
+    .modal-image-wrapper {
+        height: 250px;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+}

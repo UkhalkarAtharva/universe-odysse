@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Details - Universe Odyssey</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #0B0E14;
+            color: #E2E8F0;
+            min-height: 100vh;
+            background-image: url('/images/background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .prose h1,
+        .prose h2,
+        .prose h3 {
+            color: #F3F4F6;
+            font-weight: 700;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .prose p {
+            margin-bottom: 1em;
+            line-height: 1.75;
+        }
+
+        .prose a {
+            color: #60A5FA;
+            text-decoration: underline;
+        }
+
+        .like-btn {
+            transition: all 0.3s ease;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .like-btn.liked {
+            color: #EF4444;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="glass-panel sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/"
+                        class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                        Universe Odyssey
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="/"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="/blogs" class="text-white px-3 py-2 rounded-md text-sm font-medium">Blogs</a>
+                        <a href="/quiz"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Daily
+                            Quiz</a>
+                    </div>
+                </div>
+
+                <!-- Auth Section -->
+                <div id="navbar-auth" class="flex items-center ml-4">
+                    <!-- Content injected by navbar.js -->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-12 max-w-4xl">
+        <div id="loading" class="text-center py-20">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            <p class="mt-4 text-gray-400">Loading blog details...</p>
+        </div>
+
+        <div id="error" class="hidden glass-panel p-8 rounded-2xl text-center text-red-400 mb-8"></div>
+
+        <article id="blogContent" class="hidden space-y-8">
+            <div class="glass-panel p-8 rounded-2xl">
+                <header class="mb-8 border-b border-gray-700 pb-8">
+                    <h1 id="blogTitle" class="text-4xl font-bold text-white mb-4"></h1>
+                    <div class="flex items-center justify-between text-gray-400">
+                        <div class="flex items-center gap-3">
+                            <div id="authorAvatar"
+                                class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                            </div>
+                            <div>
+                                <p id="authorName" class="font-medium text-white"></p>
+                                <p id="blogDate" class="text-sm"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-6">
+                            <span id="viewCount" class="flex items-center gap-2">
+                                👁️ <span>0</span>
+                            </span>
+                            <button id="likeBtn"
+                                class="like-btn flex items-center gap-2 text-gray-400 hover:text-red-400">
+                                <span id="likeIcon">♡</span>
+                                <span id="likeCount">0</span>
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                <div id="blogBody" class="prose prose-invert max-w-none text-gray-300"></div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="glass-panel p-8 rounded-2xl">
+                <h3 class="text-2xl font-bold text-white mb-6">Comments</h3>
+
+                <div id="commentFormContainer" class="mb-8 hidden">
+                    <form id="commentForm" class="space-y-4">
+                        <textarea id="commentContent" rows="3"
+                            class="w-full bg-gray-800/50 border border-gray-700 rounded-lg p-4 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                            placeholder="Share your thoughts..."></textarea>
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium">
+                                Post Comment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div id="loginToComment"
+                    class="mb-8 p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg text-center hidden">
+                    <p class="text-blue-200">Please <a href="/login.html" class="text-blue-400 hover:underline">log
+                            in</a> to leave a comment.</p>
+                </div>
+
+                <div id="commentsList" class="space-y-6">
+                    <!-- Comments injected here -->
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button onclick="history.back()"
+                    class="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
+                    ← Back to Blogs
+                </button>
+            </div>
+        </article>
+    </main>
+
+    <script>
+        let currentBlogId = null;
+        let currentUser = null;
+
+        async function init() {
+            // Extract ID from URL: /blogs/{id} or query param for testing
+            const pathParts = window.location.pathname.split('/');
+            currentBlogId = pathParts[pathParts.length - 1];
+
+            // Fallback for query param ?id={id}
+            if (!currentBlogId || isNaN(currentBlogId)) {
+                const urlParams = new URLSearchParams(window.location.search);
+                currentBlogId = urlParams.get('id');
+            }
+
+            if (!currentBlogId || isNaN(currentBlogId)) {
+                showError("Invalid blog ID");
+                return;
+            }
+
+            await checkAuth();
+            await fetchBlogDetails();
+            await fetchComments();
+        }
+
+        async function checkAuth() {
+            try {
+                const res = await fetch('/auth/me');
+                const data = await res.json();
+                if (data.success && data.user) {
+                    currentUser = data.user;
+                    document.getElementById('commentFormContainer').classList.remove('hidden');
+                } else {
+                    document.getElementById('loginToComment').classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error('Auth check failed', err);
+                document.getElementById('loginToComment').classList.remove('hidden');
+            }
+        }
+
+        async function fetchBlogDetails() {
+            try {
+                const response = await fetch(`/api/blogs/${currentBlogId}`);
+                if (!response.ok) {
+                    if (response.status === 404) throw new Error('Blog not found');
+                    throw new Error('Failed to load blog details');
+                }
+
+                const data = await response.json();
+                renderBlog(data);
+            } catch (err) {
+                showError(err.message);
+            } finally {
+                document.getElementById('loading').classList.add('hidden');
+            }
+        }
+
+        function renderBlog(data) {
+            const blog = data.blog;
+            document.getElementById('blogContent').classList.remove('hidden');
+
+            document.getElementById('blogTitle').textContent = blog.title;
+            document.getElementById('authorName').textContent = blog.author.fullName;
+            document.getElementById('authorAvatar').textContent = blog.author.fullName.charAt(0);
+            document.getElementById('blogDate').textContent = new Date(blog.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+            // View Count
+            document.querySelector('#viewCount span').textContent = `${blog.viewCount} views`;
+
+            // Like Button
+            const likeBtn = document.getElementById('likeBtn');
+            const likeIcon = document.getElementById('likeIcon');
+            const likeCount = document.getElementById('likeCount');
+
+            likeCount.textContent = data.likes;
+            if (data.hasLiked) {
+                likeBtn.classList.add('liked');
+                likeIcon.textContent = '❤️';
+            } else {
+                likeBtn.classList.remove('liked');
+                likeIcon.textContent = '♡';
+            }
+
+            likeBtn.onclick = () => toggleLike();
+
+            document.getElementById('blogBody').innerHTML = escapeHtml(blog.content).replace(/\n/g, '<br>');
+        }
+
+        async function toggleLike() {
+            if (!currentUser) {
+                window.location.href = `/login.html?redirect=${window.location.pathname}`;
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/blogs/${currentBlogId}/like`, { method: 'POST' });
+                if (!response.ok) throw new Error('Failed to like blog');
+
+                const data = await response.json();
+                const likeBtn = document.getElementById('likeBtn');
+                const likeIcon = document.getElementById('likeIcon');
+                const likeCount = document.getElementById('likeCount');
+
+                likeCount.textContent = data.count;
+                if (data.liked) {
+                    likeBtn.classList.add('liked');
+                    likeIcon.textContent = '❤️';
+                } else {
+                    likeBtn.classList.remove('liked');
+                    likeIcon.textContent = '♡';
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error updating like');
+            }
+        }
+
+        async function fetchComments() {
+            try {
+                const response = await fetch(`/api/blogs/${currentBlogId}/comments`);
+                if (!response.ok) throw new Error('Failed to load comments');
+
+                const data = await response.json();
+                renderComments(data.content);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function renderComments(comments) {
+            const container = document.getElementById('commentsList');
+            if (comments.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-4">No comments yet. Be the first to share your thoughts!</p>';
+                return;
+            }
+
+            container.innerHTML = comments.map(comment => `
+                <div class="bg-gray-800/30 rounded-lg p-4 border border-gray-700/50">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold text-white">
+                                ${comment.user.fullName.charAt(0)}
+                            </div>
+                            <div>
+                                <span class="font-medium text-white text-sm block">${escapeHtml(comment.user.fullName)}</span>
+                                <span class="text-xs text-gray-500">${new Date(comment.createdAt).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                        ${currentUser && currentUser.id === comment.user.id ? `
+                            <button onclick="deleteComment(${comment.id})" class="text-gray-500 hover:text-red-400 text-xs transition-colors">
+                                Delete
+                            </button>
+                        ` : ''}
+                    </div>
+                    <p class="text-gray-300 text-sm pl-10">${escapeHtml(comment.content)}</p>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('commentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const content = document.getElementById('commentContent').value;
+            if (!content.trim()) return;
+
+            try {
+                const response = await fetch(`/api/blogs/${currentBlogId}/comments`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content })
+                });
+
+                if (!response.ok) throw new Error('Failed to post comment');
+
+                document.getElementById('commentContent').value = '';
+                fetchComments(); // Reload comments
+            } catch (err) {
+                console.error(err);
+                alert('Error posting comment');
+            }
+        });
+
+        async function deleteComment(commentId) {
+            if (!confirm('Are you sure you want to delete this comment?')) return;
+
+            try {
+                const response = await fetch(`/api/blogs/comments/${commentId}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('Failed to delete comment');
+                fetchComments();
+            } catch (err) {
+                console.error(err);
+                alert('Error deleting comment');
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+            document.getElementById('loading').classList.add('hidden');
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        init();
+    </script>
+    <script src="/js/navbar.js"></script>
+</body>
+
+</html>

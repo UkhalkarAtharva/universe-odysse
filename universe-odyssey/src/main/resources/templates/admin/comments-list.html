@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{admin/fragments/admin-layout}">
+
+<head>
+    <title>Comments Moderation</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Comms Channel</h1>
+                <p class="page-subtitle">Moderate user transmissions and discussions.</p>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="table-container">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Comment</th>
+                            <th>Post</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Mock Data -->
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div class="avatar" style="width: 24px; height: 24px; font-size: 0.7rem;">J</div>
+                                    <span>JohnDoe</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: white;">This is an amazing discovery! Can't wait to see more.</div>
+                            </td>
+                            <td>
+                                <span style="color: var(--neon-cyan);">Mars Colonization</span>
+                            </td>
+                            <td>10 mins ago</td>
+                            <td>
+                                <button class="btn-icon" title="Delete" style="color: var(--neon-red);">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr style="background: rgba(239, 68, 68, 0.05);">
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div class="avatar"
+                                        style="width: 24px; height: 24px; font-size: 0.7rem; background: var(--neon-red);">
+                                        S</div>
+                                    <span style="color: var(--neon-red);">SpamBot99</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="color: white;">Click here for free crypto! -> link.com</div>
+                                <span class="badge badge-danger" style="margin-top: 0.25rem;">Reported</span>
+                            </td>
+                            <td>
+                                <span style="color: var(--neon-cyan);">Kepler-186f</span>
+                            </td>
+                            <td>1 hour ago</td>
+                            <td>
+                                <button class="btn-icon" title="Delete" style="color: var(--neon-red);">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                        </path>
+                                    </svg>
+                                </button>
+                                <button class="btn-icon" title="Ban User" style="color: var(--text-muted);">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

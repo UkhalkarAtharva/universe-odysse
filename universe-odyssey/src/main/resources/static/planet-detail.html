@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/site.css">
     <link rel="stylesheet" href="/css/site-ui.css">
@@ -80,7 +83,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .error-container {
@@ -168,8 +173,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .type-badge {
@@ -183,6 +193,7 @@
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar">
         <a href="/" class="navbar-brand">🪐 Universe Odyssey</a>
@@ -276,30 +287,30 @@
             if (retry) retry.addEventListener('click', () => loadPlanetData());
         }
 
-        function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]); }
+        function escapeHtml(s) { if (!s) return ''; return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]); }
 
-        async function modelExists(path){
-            try{
+        async function modelExists(path) {
+            try {
                 const res = await fetch(path, { method: 'HEAD' });
                 return res.ok;
-            }catch(e){ return false; }
+            } catch (e) { return false; }
         }
 
         async function loadPlanetData() {
             // determine planet name from query or path
             const params = new URLSearchParams(window.location.search);
             let planetName = params.get('planet');
-            if(!planetName){
+            if (!planetName) {
                 const parts = window.location.pathname.split('/').filter(Boolean);
-                if(parts.length && parts[0].toLowerCase() === 'planet' && parts[1]) planetName = parts[1];
+                if (parts.length && parts[0].toLowerCase() === 'planet' && parts[1]) planetName = parts[1];
             }
             if (!planetName) { showError('No planet specified'); return; }
             const planetKey = planetName.toLowerCase();
-            try { window.history.replaceState({}, '', '/planet/' + encodeURIComponent(planetKey)); } catch(e) { }
+            try { window.history.replaceState({}, '', '/planet/' + encodeURIComponent(planetKey)); } catch (e) { }
 
             showLoading();
 
-            try{
+            try {
                 const response = await fetch(`/api/planets/${encodeURIComponent(planetName)}`);
                 if (!response.ok) throw new Error('Planet data not found');
                 const data = await response.json();
@@ -307,23 +318,23 @@
 
                 // Model handling - try specific model then generic
                 const modelPath = data.modelUrl || `/models/${planetKey}.glb`;
-                if (await modelExists(modelPath)){
+                if (await modelExists(modelPath)) {
                     injectModelViewerIfAvailable('#modelContainer', modelPath).then(() => {
                         // fade-in handled by CSS
                     });
                 } else if (data.nasaImageUrl) {
                     const container = document.querySelector('#modelContainer');
                     if (container) {
-                        container.innerHTML = `<img src="${escapeHtml(data.nasaImageUrl)}" alt="${escapeHtml(data.name||planetName)}" style="width:100%;max-width:900px;height:auto;border-radius:12px;display:block;margin:20px auto;" onerror="this.src='/assets/planet-placeholder.jpg'">`;
+                        container.innerHTML = `<img src="${escapeHtml(data.nasaImageUrl)}" alt="${escapeHtml(data.name || planetName)}" style="width:100%;max-width:900px;height:auto;border-radius:12px;display:block;margin:20px auto;" onerror="this.src='/assets/planet-placeholder.jpg'">`;
                     }
                 }
-            } catch(err){
+            } catch (err) {
                 console.error(err);
                 showError(err.message || 'Unknown error');
             }
         }
 
-        function displayPlanetDetails(data, planetName){
+        function displayPlanetDetails(data, planetName) {
             const titleEl = document.getElementById('planet-title');
             if (titleEl) titleEl.textContent = data.name || planetName || 'Planet';
 
@@ -331,14 +342,14 @@
             if (!specsEl) return;
 
             const cards = [];
-            if (data.gravity != null) cards.push({label:'Surface Gravity', value: formatNumberWithCommas(data.gravity) + ' m/s²'});
-            if (data.radius != null) cards.push({label:'Radius', value: formatNumberWithCommas(data.radius) + ' km'});
-            if (data.mass != null) cards.push({label:'Mass', value: formatMass(data.mass)});
-            if (data.moons != null) cards.push({label:'Moons', value: data.moons});
-            if (data.distanceFromSun != null) cards.push({label:'Distance from Sun', value: formatNumberWithCommas(data.distanceFromSun) + ' million km'});
-            if (data.orbitalPeriod != null) cards.push({label:'Orbital Period', value: formatNumberWithCommas(data.orbitalPeriod) + ' days'});
-            if (data.temperature != null) cards.push({label:'Surface Temperature', value: formatNumberWithCommas(data.temperature) + ' K'});
-            if (data.atmosphere) cards.push({label:'Atmosphere', value: escapeHtml(data.atmosphere)});
+            if (data.gravity != null) cards.push({ label: 'Surface Gravity', value: formatNumberWithCommas(data.gravity) + ' m/s²' });
+            if (data.radius != null) cards.push({ label: 'Radius', value: formatNumberWithCommas(data.radius) + ' km' });
+            if (data.mass != null) cards.push({ label: 'Mass', value: formatMass(data.mass) });
+            if (data.moons != null) cards.push({ label: 'Moons', value: data.moons });
+            if (data.distanceFromSun != null) cards.push({ label: 'Distance from Sun', value: formatNumberWithCommas(data.distanceFromSun) + ' million km' });
+            if (data.orbitalPeriod != null) cards.push({ label: 'Orbital Period', value: formatNumberWithCommas(data.orbitalPeriod) + ' days' });
+            if (data.temperature != null) cards.push({ label: 'Surface Temperature', value: formatNumberWithCommas(data.temperature) + ' K' });
+            if (data.atmosphere) cards.push({ label: 'Atmosphere', value: escapeHtml(data.atmosphere) });
 
             specsEl.innerHTML = cards.map(c => `
                 <div class="spec-card">
@@ -355,7 +366,7 @@
 
             const nasaCta = document.getElementById('nasaCta');
             if (nasaCta) {
-                nasaCta.href = `https://www.nasa.gov/search?q=${encodeURIComponent(data.name||planetName)}`;
+                nasaCta.href = `https://www.nasa.gov/search?q=${encodeURIComponent(data.name || planetName)}`;
                 nasaCta.textContent = `Want to know more about ${data.name || planetName}?`;
             }
 
@@ -367,4 +378,5 @@
         window.addEventListener('load', loadPlanetData);
     </script>
 </body>
+
 </html>

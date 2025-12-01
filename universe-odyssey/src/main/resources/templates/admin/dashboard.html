@@ -1,81 +1,263 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{admin/fragments/admin-layout}">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+  <title>Dashboard</title>
 </head>
+
 <body>
-  <!-- Background Video + Overlay -->
-  <video class="admin-bg-video" autoplay muted loop playsinline>
-    <source src="/videos/0_Space_Stars_3840x2160.mp4" type="video/mp4" />
-  </video>
-  <div class="admin-overlay"></div>
-
-  <!-- Fixed Header -->
-  <header class="admin-header">
-    <div class="header-content">
-      <div class="header-brand">
-        <h1>Admin Panel</h1>
+  <div layout:fragment="content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Mission Control</h1>
+        <p class="page-subtitle">Welcome back, Commander. System status is nominal.</p>
       </div>
-      <nav class="header-nav">
-        <a href="/admin/dashboard" class="nav-link">Dashboard</a>
-        <a href="/admin/planets" class="nav-link">Planets</a>
-        <a href="/admin/facts" class="nav-link">Facts</a>
-        <a href="/admin/users" class="nav-link">Users</a>
-        <a href="/logout" class="nav-link logout">Logout</a>
-      </nav>
+      <div style="display: flex; gap: 1rem;">
+        <button class="btn btn-glass">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+          </svg>
+          Export Report
+        </button>
+        <button class="btn btn-primary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          New Mission
+        </button>
+      </div>
     </div>
-  </header>
 
-  <!-- Main Content -->
-  <main class="admin-main">
-    <div class="admin-content">
-      <div class="page-header">
-        <div>
-          <h1 class="page-title">Welcome, Administrator</h1>
-          <p class="page-subtitle">Manage your content and users from here</p>
+    <!-- 4-Card Grid -->
+    <div class="grid-4">
+      <div class="glass-card stat-card">
+        <div class="stat-header">
+          <div class="stat-icon" style="background: rgba(124, 58, 237, 0.1); color: var(--neon-purple);">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+              </path>
+            </svg>
+          </div>
+          <div class="stat-trend trend-up">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6">
+              </path>
+            </svg>
+            +12.5%
+          </div>
+        </div>
+        <div class="stat-value" th:text="${userCount}">2,543</div>
+        <div class="stat-label">Total Explorers</div>
+      </div>
+
+      <div class="glass-card stat-card">
+        <div class="stat-header">
+          <div class="stat-icon" style="background: rgba(6, 182, 212, 0.1); color: var(--neon-cyan);">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z">
+              </path>
+            </svg>
+          </div>
+          <div class="stat-trend trend-up">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6">
+              </path>
+            </svg>
+            +5.2%
+          </div>
+        </div>
+        <div class="stat-value" th:text="${blogCount}">148</div>
+        <div class="stat-label">Published Logs</div>
+      </div>
+
+      <div class="glass-card stat-card">
+        <div class="stat-header">
+          <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--neon-green);">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+              </path>
+            </svg>
+          </div>
+          <div class="stat-trend trend-up">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6">
+              </path>
+            </svg>
+            +8.1%
+          </div>
+        </div>
+        <div class="stat-value" th:text="${planetCount}">45</div>
+        <div class="stat-label">Discovered Worlds</div>
+      </div>
+
+      <div class="glass-card stat-card">
+        <div class="stat-header">
+          <div class="stat-icon" style="background: rgba(239, 68, 68, 0.1); color: var(--neon-red);">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
+              </path>
+            </svg>
+          </div>
+          <div class="stat-trend trend-down">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6">
+              </path>
+            </svg>
+            -2.4%
+          </div>
+        </div>
+        <div class="stat-value">98.2%</div>
+        <div class="stat-label">System Integrity</div>
+      </div>
+    </div>
+
+    <!-- Main Chart & Activity -->
+    <div class="grid-3-1">
+      <div class="glass-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h3 style="font-weight: 600; color: white;">Website Interactions</h3>
+          <select
+            style="background: rgba(255,255,255,0.05); border: var(--border-glass); color: var(--text-secondary); padding: 0.25rem 0.5rem; border-radius: 0.5rem; outline: none;">
+            <option>Last 7 Days</option>
+            <option>Last 30 Days</option>
+            <option>This Year</option>
+          </select>
+        </div>
+        <div style="height: 300px; width: 100%;">
+          <canvas id="interactionChart"></canvas>
         </div>
       </div>
 
-      <div class="dashboard-grid">
-        <a href="/admin/planets" style="text-decoration: none;">
-          <div class="dashboard-card">
-            <h3>Manage Planets</h3>
-            <p>View, edit, and delete planets in the database</p>
-          </div>
-        </a>
+      <div class="glass-card" style="display: flex; flex-direction: column;">
+        <h3 style="font-weight: 600; color: white; margin-bottom: 1.5rem;">System Status</h3>
 
-        <a href="/admin/facts" style="text-decoration: none;">
-          <div class="dashboard-card">
-            <h3>Add New Fact</h3>
-            <p>Create and manage interesting facts about space</p>
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 1.5rem;">
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+              <span style="color: var(--text-secondary);">NASA API</span>
+              <span style="color: var(--neon-green);">Operational</span>
+            </div>
+            <div style="height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+              <div style="height: 100%; width: 100%; background: var(--neon-green);"></div>
+            </div>
           </div>
-        </a>
 
-        <a href="/admin/users" style="text-decoration: none;">
-          <div class="dashboard-card">
-            <h3>Manage Users</h3>
-            <p>View, edit, and manage user accounts</p>
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+              <span style="color: var(--text-secondary);">Database</span>
+              <span style="color: var(--neon-blue);">Stable</span>
+            </div>
+            <div style="height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+              <div style="height: 100%; width: 92%; background: var(--neon-blue);"></div>
+            </div>
           </div>
-        </a>
 
-        <a href="/" style="text-decoration: none;">
-          <div class="dashboard-card">
-            <h3>Back to Site</h3>
-            <p>Return to the main user website</p>
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+              <span style="color: var(--text-secondary);">Server Load</span>
+              <span style="color: var(--neon-purple);">45%</span>
+            </div>
+            <div style="height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+              <div style="height: 100%; width: 45%; background: var(--neon-purple);"></div>
+            </div>
           </div>
-        </a>
+        </div>
+
+        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: var(--border-glass);">
+          <h4 style="font-size: 0.875rem; color: white; margin-bottom: 1rem;">Recent Alerts</h4>
+          <div style="display: flex; gap: 0.75rem; align-items: start; margin-bottom: 1rem;">
+            <div style="width: 8px; height: 8px; background: var(--neon-cyan); border-radius: 50%; margin-top: 6px;">
+            </div>
+            <div>
+              <div style="font-size: 0.875rem; color: var(--text-primary);">New planet data fetched</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">2 mins ago</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.75rem; align-items: start;">
+            <div style="width: 8px; height: 8px; background: var(--neon-purple); border-radius: 50%; margin-top: 6px;">
+            </div>
+            <div>
+              <div style="font-size: 0.875rem; color: var(--text-primary);">Backup completed</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">1 hour ago</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </main>
 
-  <!-- Footer -->
-  <footer class="admin-footer">
-    <p>&copy; 2025 Universe Odyssey Admin. All rights reserved.</p>
-  </footer>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('interactionChart').getContext('2d');
 
-  <script th:src="@{/js/admin.js}"></script>
+        // Gradient for the chart
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(124, 58, 237, 0.5)');
+        gradient.addColorStop(1, 'rgba(124, 58, 237, 0)');
+
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+              label: 'Page Views',
+              data: [1200, 1900, 1500, 2200, 1800, 2800, 2500],
+              borderColor: '#7c3aed',
+              backgroundColor: gradient,
+              borderWidth: 2,
+              tension: 0.4,
+              fill: true,
+              pointBackgroundColor: '#030712',
+              pointBorderColor: '#7c3aed',
+              pointBorderWidth: 2,
+              pointRadius: 4,
+              pointHoverRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                backgroundColor: 'rgba(17, 24, 39, 0.9)',
+                titleColor: '#fff',
+                bodyColor: '#9ca3af',
+                borderColor: 'rgba(255,255,255,0.1)',
+                borderWidth: 1,
+                padding: 10,
+                displayColors: false
+              }
+            },
+            scales: {
+              y: {
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.05)'
+                },
+                ticks: {
+                  color: '#6b7280'
+                }
+              },
+              x: {
+                grid: {
+                  display: false
+                },
+                ticks: {
+                  color: '#6b7280'
+                }
+              }
+            }
+          }
+        });
+      });
+    </script>
+  </div>
 </body>
+
 </html>

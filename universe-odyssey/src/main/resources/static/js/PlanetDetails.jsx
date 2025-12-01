@@ -68,13 +68,13 @@ const PlanetDetails = () => {
     if (!data) return null;
 
     return (
-      <div className="planet-details-page">
+      <div className="planet-details-page container">
         {/* Header Section */}
-        <div className="planet-header">
+        <div className="planet-header grid-two-column">
           <button className="back-button" onClick={() => navigate('/')}>
             ← Back to Planets
           </button>
-          <h1 className="planet-title">{data.englishName || name}</h1>
+          <h1 className="planet-title break-word">{data.englishName || name}</h1>
           <p className="planet-type">
             {data.isPlanet ? 'Planet' : 'Celestial Body'}
           </p>
@@ -87,42 +87,42 @@ const PlanetDetails = () => {
             {data.gravity !== null && data.gravity !== undefined && (
               <div className="spec-card">
                 <div className="spec-label">Surface Gravity</div>
-                <div className="spec-value">{formatNumberWithCommas(data.gravity)} m/s²</div>
+                <div className="spec-value break-word">{formatNumberWithCommas(data.gravity)} m/s²</div>
               </div>
             )}
 
             {data.meanRadius !== null && data.meanRadius !== undefined && (
               <div className="spec-card">
                 <div className="spec-label">Mean Radius</div>
-                <div className="spec-value">{formatNumberWithCommas(data.meanRadius)} km</div>
+                <div className="spec-value break-word">{formatNumberWithCommas(data.meanRadius)} km</div>
               </div>
             )}
 
             {data.mass && (
               <div className="spec-card">
                 <div className="spec-label">Mass</div>
-                <div className="spec-value">{formatMass(data.mass)}</div>
+                <div className="spec-value break-word">{formatMass(data.mass)}</div>
               </div>
             )}
 
             {data.moons && data.moons.length > 0 && (
               <div className="spec-card">
                 <div className="spec-label">Number of Moons</div>
-                <div className="spec-value">{data.moons.length}</div>
+                <div className="spec-value break-word">{data.moons.length}</div>
               </div>
             )}
 
             {data.discoveryDate && (
               <div className="spec-card">
                 <div className="spec-label">Discovery Date</div>
-                <div className="spec-value">{data.discoveryDate}</div>
+                <div className="spec-value break-word">{data.discoveryDate}</div>
               </div>
             )}
 
             {data.discoveredBy && (
               <div className="spec-card">
                 <div className="spec-label">Discovered By</div>
-                <div className="spec-value">{data.discoveredBy}</div>
+                <div className="spec-value break-word">{data.discoveredBy}</div>
               </div>
             )}
           </div>
@@ -136,21 +136,21 @@ const PlanetDetails = () => {
               {data.axialTilt !== null && data.axialTilt !== undefined && (
                 <div className="info-card">
                   <h4>Axial Tilt</h4>
-                  <p>{formatNumberWithCommas(data.axialTilt)}°</p>
+                  <p className="break-word">{formatNumberWithCommas(data.axialTilt)}°</p>
                 </div>
               )}
 
               {data.density !== null && data.density !== undefined && (
                 <div className="info-card">
                   <h4>Density</h4>
-                  <p>{formatNumberWithCommas(data.density)} g/cm³</p>
+                  <p className="break-word">{formatNumberWithCommas(data.density)} g/cm³</p>
                 </div>
               )}
 
               {data.meanTemperature !== null && data.meanTemperature !== undefined && (
                 <div className="info-card">
                   <h4>Mean Temperature</h4>
-                  <p>{formatNumberWithCommas(data.meanTemperature)} K</p>
+                  <p className="break-word">{formatNumberWithCommas(data.meanTemperature)} K</p>
                 </div>
               )}
             </div>
@@ -164,7 +164,7 @@ const PlanetDetails = () => {
             <div className="moons-list">
               {data.moons.slice(0, 10).map((moon, index) => (
                 <div key={index} className="moon-item">
-                  <span className="moon-name">{moon}</span>
+                  <span className="moon-name break-word">{moon}</span>
                 </div>
               ))}
               {data.moons.length > 10 && (

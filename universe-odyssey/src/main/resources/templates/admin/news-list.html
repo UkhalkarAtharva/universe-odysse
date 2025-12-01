@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{admin/fragments/admin-layout}">
+
+<head>
+    <title>News Management</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">News Feed Control</h1>
+                <p class="page-subtitle">Manage interstellar news sources and articles.</p>
+            </div>
+            <button class="btn btn-primary">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                    </path>
+                </svg>
+                Trigger Fetch
+            </button>
+        </div>
+
+        <!-- Source Status Cards -->
+        <div class="grid-4" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="glass-card" style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
+                <div
+                    style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                    N</div>
+                <div>
+                    <div style="font-weight: 600; color: white;">NASA API</div>
+                    <div style="font-size: 0.75rem; color: var(--neon-green);">● Operational</div>
+                </div>
+            </div>
+            <div class="glass-card" style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
+                <div
+                    style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                    E</div>
+                <div>
+                    <div style="font-weight: 600; color: white;">ESA Feed</div>
+                    <div style="font-size: 0.75rem; color: var(--neon-green);">● Operational</div>
+                </div>
+            </div>
+            <div class="glass-card" style="padding: 1rem; display: flex; align-items: center; gap: 1rem;">
+                <div
+                    style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                    I</div>
+                <div>
+                    <div style="font-weight: 600; color: white;">ISRO News</div>
+                    <div style="font-size: 0.75rem; color: var(--neon-green);">● Operational</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="table-container">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Headline</th>
+                            <th>Published</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Mock Data for Visualization -->
+                        <tr>
+                            <td>
+                                <span class="badge badge-info">NASA</span>
+                            </td>
+                            <td>
+                                <div style="font-weight: 500; color: white;">James Webb Telescope Discovers New
+                                    Exoplanet</div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Atmospheric composition
+                                    suggests water vapor...</div>
+                            </td>
+                            <td>2 hours ago</td>
+                            <td>
+                                <button class="btn-icon" title="Hide">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="badge badge-purple">ESA</span>
+                            </td>
+                            <td>
+                                <div style="font-weight: 500; color: white;">Juice Mission Enters Jupiter Orbit</div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Preparing for Ganymede
+                                    flyby...</div>
+                            </td>
+                            <td>5 hours ago</td>
+                            <td>
+                                <button class="btn-icon" title="Hide">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
