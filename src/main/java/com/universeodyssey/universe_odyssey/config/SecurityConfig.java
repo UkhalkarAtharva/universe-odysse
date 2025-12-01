@@ -38,7 +38,9 @@ public class SecurityConfig {
                                 "/assets/**",
                                 "/videos/**",
                                 "/animations/**",
-                                "/favicon.png")
+                                "/favicon.png",
+                                "/static/**",
+                                "/images/**")
                         .permitAll()
 
                         // Frontend SPA routes (forward to React)

@@ -15,11 +15,7 @@ public class HomeController {
         this.newsService = newsService;
     }
 
-    @GetMapping("/")
-    public String home(Model model) {
-        model.addAttribute("latestNews", newsService.getLatestNews(5));
-        return "home";
-    }
+    // Root "/" is now handled by HealthController
 
     @GetMapping("/home")
     public String homePath(Model model) {
@@ -47,21 +43,6 @@ public class HomeController {
     @GetMapping("/facts")
     public String facts() {
         return "forward:/index.html";
-    }
-
-    @GetMapping("/about")
-    public String about() {
-        return "forward:/index.html";
-    }
-
-    @GetMapping("/explore")
-    public String explore() {
-        return "forward:/index.html";
-    }
-
-    @GetMapping("/blogs")
-    public String blogs() {
-        return "forward:/blogs.html";
     }
 
     @GetMapping("/blogs/new")
